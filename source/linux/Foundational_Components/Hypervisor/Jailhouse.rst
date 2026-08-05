@@ -50,9 +50,9 @@ cell configuration file.
 
 The open source Jailhouse project from https://github.com/siemens/jailhouse is integrated in Yocto build environment.
 
-- Yocto recipe (Scarthgap) for Jailhouse can be found here: `meta-ti <https://git.ti.com/cgit/arago-project/meta-ti/tree/meta-ti-extras/recipes-ti/jailhouse?h=scarthgap>`__.
+- Yocto recipe (master) for Jailhouse can be found here: `meta-ti <https://git.ti.com/cgit/arago-project/meta-ti/tree/meta-ti-extras/recipes-ti/jailhouse?h=master>`__.
 
-- Jailhouse kernel patches are integrated with TI Linux Kernel (v6.12) and hosted here `Linux git.ti <https://git.ti.com/cgit/processor-sdk/linux/>`__. This repository includes Jailhouse module,
+- Jailhouse kernel patches are integrated with TI Linux Kernel (v6.18) and hosted here `Linux git.ti <https://git.ti.com/cgit/processor-sdk/linux/>`__. This repository includes Jailhouse module,
   uio_ivshmem module for shared-memory and device tree changes for Jailhouse.
 
 - U-Boot port for Jailhouse can be found here `U-Boot git.ti <https://git.ti.com/cgit/processor-sdk/u-boot/>`__. This repository contains the fix for error
@@ -264,7 +264,7 @@ on the EVM then power on the board, the following logs can be observed on the te
 
       am62lxx-evm login:
 
-.. note:: 
+.. note::
    Jailhouse module is not autoloaded during boot-up. To load the jailhouse module
    after boot, run following commands:
 
@@ -496,14 +496,14 @@ the demo are:
 
    .. code-block:: console
 
-      root@<machine>: jailhouse cell load k3-am625-sk-linux-demo /usr/libexec/jailhouse/linux-loader.bin -a 0x0 -s "kernel=0xe0200000 dtb=0xe0000000" -a 0x1000 /boot/Image -a 0xe0200000 /boot/tisdk-jailhouse-inmate-am62xx-evm.rootfs.cpio -a 0xe2a5e000 /usr/share/jailhouse/inmate-k3-am625-sk.dtb -a 0xe0000000
+      root@<machine>: jailhouse cell load k3-am625-sk-linux-demo /usr/libexec/jailhouse/linux-loader.bin -a 0x0 -s "kernel=0xe0200000 dtb=0xe0000000" -a 0x1000 /boot/Image -a 0xe0200000 /boot/tisdk-jailhouse-inmate-am62xx-evm.cpio -a 0xe2b4a000 /usr/share/jailhouse/inmate-k3-am625-sk.dtb -a 0xe0000000
 
    linux-loader.bin is a small application provided and built by Jailhouse source
    tree to run inmates. As you can see (-a 0x0) it is loaded to virtual address 0x0.
    "-s "kernel=0xe0200000 dtb=0xe0000000" -a 0x1000" - is the linux_loader argument
    loaded as string to virtual address 0x1000, which instructs the linux-loader to
    branch to the those addresses. Kernel Image is loaded to the virtual address
-   0xe0200000, jailhouse inmate ramfs to 0xe2a5e000 and device tree for inmate to 0xe0000000.
+   0xe0200000, jailhouse inmate ramfs to 0xe2b4a000 and device tree for inmate to 0xe0000000.
 
 .. ifconfig:: CONFIG_part_variant in ('AM62PX')
 
@@ -512,11 +512,11 @@ the demo are:
    "-s "kernel=0x9e0200000 dtb=0x9e0000000" -a 0x1000" - is the linux_loader argument
    loaded as string to virtual address 0x1000, which instructs the linux-loader to
    branch to the those addresses. Kernel Image is loaded to the virtual address
-   0x9e0200000, jailhouse inmate ramfs to 0x9e2a5e000 and device tree for inmate to 0x9e0000000.
+   0x9e0200000, jailhouse inmate ramfs to 0x9e2b4a000 and device tree for inmate to 0x9e0000000.
 
    .. code-block:: console
 
-      root@am62pxx-evm: jailhouse cell load k3-am62p5-sk-linux-demo /usr/libexec/jailhouse/linux-loader.bin -a 0x0 -s "kernel=0x9e0200000 dtb=0x9e0000000" -a 0x1000 /boot/Image -a 0x9e0200000 /boot/tisdk-jailhouse-inmate-am62pxx-evm.rootfs.cpio -a 0x9e2a5e000 /usr/share/jailhouse/inmate-k3-am62p5-sk.dtb -a 0x9e0000000
+      root@am62pxx-evm: jailhouse cell load k3-am62p5-sk-linux-demo /usr/libexec/jailhouse/linux-loader.bin -a 0x0 -s "kernel=0x9e0200000 dtb=0x9e0000000" -a 0x1000 /boot/Image -a 0x9e0200000 /boot/tisdk-jailhouse-inmate-am62pxx-evm.cpio -a 0x9e2b4a000 /usr/share/jailhouse/inmate-k3-am62p5-sk.dtb -a 0x9e0000000
 
 .. ifconfig:: CONFIG_part_variant in ('AM62LX')
 
@@ -525,11 +525,11 @@ the demo are:
    "-s "kernel=0xc0800000 dtb=0xc0600000" -a 0x1000" - is the linux_loader argument
    loaded as string to virtual address 0x1000, which instructs the linux-loader to
    branch to the those addresses. Kernel Image is loaded to the virtual address
-   0xc0800000, jailhouse inmate ramfs to 0xc286e000 and device tree for inmate to 0xc0600000.
+   0xc0800000, jailhouse inmate ramfs to 0xc314a000 and device tree for inmate to 0xc0600000.
 
    .. code-block:: console
 
-      root@am62lxx-evm: jailhouse cell load k3-am62l3-evm-linux-demo /usr/libexec/jailhouse/linux-loader.bin -a 0x0 -s "kernel=0xc0800000 dtb=0xc0600000" -a 0x1000 /boot/Image -a 0xc0800000 /boot/tisdk-jailhouse-inmate-rt-am62lxx-evm.rootfs.cpio -a 0xc286e000 /usr/share/jailhouse/inmate-k3-am62l3-evm.dtb -a 0xc0600000
+      root@am62lxx-evm: jailhouse cell load k3-am62l3-evm-linux-demo /usr/libexec/jailhouse/linux-loader.bin -a 0x0 -s "kernel=0xc0800000 dtb=0xc0600000" -a 0x1000 /boot/Image -a 0xc0800000 /boot/tisdk-jailhouse-inmate-am62lxx-evm.cpio -a 0xc314a000 /usr/share/jailhouse/inmate-k3-am62l3-evm.dtb -a 0xc0600000
 
 -  Start inmate cell
 
@@ -927,7 +927,7 @@ Run ivshmem-demo on both root and inmate cell
       ^C
 
 You can see interrupts will be received in both inmate and root cell. Also, check
-the values using 
+the values using
 
 .. code-block:: console
 
@@ -981,32 +981,40 @@ Running Ethernet Demo
 =====================
 
 This application demonstrates how to use IVSHMEM Ethernet to communicate with another
-linux inmate cell in the Jailhouse hypervisor. Configure the eth1 in root cell and eth0 in
+linux inmate cell in the Jailhouse hypervisor. Configure the eth2 in root cell and eth0 in
 inmate cell and ping.
 
 - In inmate cell
 
 .. code-block:: console
 
-   root@<machine>: ifconfig enp0s1 192.168.0.2
+   root@<machine>: ip addr add 192.168.0.3 dev eth0
+   root@<machine>: ip link set eth0 up
 
 - In root cell
 
 .. code-block:: console
 
-   root@<machine>: ifconfig enP1p0s1 192.168.0.3
+   root@<machine>: ip addr add 192.168.0.2 dev eth2
+   root@<machine>: ip link set eth2 up
 
-Ping enp0s1 using enP1p0s1 #ping 192.168.0.2 in root cell or ping enP1p0s1 using enp0s1
+Ping eth0 using eth2 #ping 192.168.0.2 in root cell or ping eth2 using eth0
 ping 192.168.0.3 in inmate cell.
 
 Ex. ping to inmate cell from root cell
 
 .. code-block:: console
 
-   root@<machine>: ping 192.168.0.2
-   PING 192.168.0.2 (192.168.0.2): 56 data bytes
-   64 bytes from 192.168.0.2: seq=0 ttl=64 time=0.707 ms
-   64 bytes from 192.168.0.2: seq=1 ttl=64 time=0.373 ms
+   root@<machine>:~# ping -c 4 192.168.0.3
+   PING 192.168.0.3 (192.168.0.3) 56(84) bytes of data.
+   64 bytes from 192.168.0.3: icmp_seq=1 ttl=64 time=0.780 ms
+   64 bytes from 192.168.0.3: icmp_seq=2 ttl=64 time=0.413 ms
+   64 bytes from 192.168.0.3: icmp_seq=3 ttl=64 time=0.407 ms
+   64 bytes from 192.168.0.3: icmp_seq=4 ttl=64 time=0.415 ms
+
+   --- 192.168.0.3 ping statistics ---
+   4 packets transmitted, 4 received, 0% packet loss, time 3057ms
+   rtt min/avg/max/mdev = 0.407/0.503/0.780/0.159 ms
 
 Running Baremetal Demos
 =======================

@@ -9,15 +9,23 @@ Kernel Drivers
    Foundational_Components/Kernel/Kernel_Drivers/Camera/VPFE
    Foundational_Components/Kernel/Kernel_Drivers/Camera/VIP
    Foundational_Components/Kernel/Kernel_Drivers/Camera/CAL
-   Foundational_Components/Kernel/Kernel_Drivers/Camera/CSI2RX
+   Foundational_Components/Kernel/Kernel_Drivers/Camera/CSI2RX_AM62X
+   Foundational_Components/Kernel/Kernel_Drivers/Camera/CSI2RX_AM62PX
+   Foundational_Components/Kernel/Kernel_Drivers/Camera/CSI2RX_AM62AX
+   Foundational_Components/Kernel/Kernel_Drivers/Camera/CSI2RX_J721E
+   Foundational_Components/Kernel/Kernel_Drivers/Camera/CSI2RX_J721S2
+   Foundational_Components/Kernel/Kernel_Drivers/Camera/CSI2RX_J784S4
+   Foundational_Components/Kernel/Kernel_Drivers/Camera/CSI2RX_J722S
    Foundational_Components/Kernel/Kernel_Drivers/Crypto/DTHEv2
    Foundational_Components/Kernel/Kernel_Drivers/Crypto/SA2UL_OMAP
    Foundational_Components/Kernel/Kernel_Drivers/MCAN
    Foundational_Components/Kernel/Kernel_Drivers/MCRC64
    Foundational_Components/Kernel/Kernel_Drivers/DCAN
+   Foundational_Components/Kernel/Kernel_Drivers/DDR
    Foundational_Components/Kernel/Kernel_Drivers/Display/DSS
    Foundational_Components/Kernel/Kernel_Drivers/Display/DSS7
    Foundational_Components/Kernel/Kernel_Drivers/Display/LCDC
+   Foundational_Components/Kernel/Kernel_Drivers/ECAP
    Foundational_Components/Kernel/Kernel_Drivers/EQEP
    Foundational_Components/Kernel/Kernel_Drivers/GPIO
    Foundational_Components/Kernel/Kernel_Drivers/HYPERFLASH
@@ -28,6 +36,7 @@ Kernel Drivers
    Foundational_Components/Kernel/Kernel_Drivers/Network/HSR_PRP_Non_Offload
    Foundational_Components/Kernel/Kernel_Drivers/Network/HSR_Offload
    Foundational_Components/Kernel/Kernel_Drivers/Network/PRP_Offload
+   Foundational_Components/Kernel/Kernel_Drivers/Network/HSR_PRP_PTP
    Foundational_Components/Kernel/Kernel_Drivers/Network/CPSW-Ethernet
    Foundational_Components/Kernel/Kernel_Drivers/Network/CPSW2g
    Foundational_Components/Kernel/Kernel_Drivers/Network/NETCONF-YANG

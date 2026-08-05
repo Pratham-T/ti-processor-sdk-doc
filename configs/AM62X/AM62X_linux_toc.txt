@@ -53,8 +53,10 @@ linux/Foundational_Components_Kernel
 linux/Foundational_Components_Kernel_Drivers
 #linux/Foundational_Components/Kernel/Kernel_Drivers/ADC
 linux/Foundational_Components/Kernel/Kernel_Drivers/Audio
-linux/Foundational_Components/Kernel/Kernel_Drivers/Camera/CSI2RX
+linux/Foundational_Components/Kernel/Kernel_Drivers/Camera/CSI2RX_AM62X
 linux/Foundational_Components/Kernel/Kernel_Drivers/Crypto/SA2UL_OMAP
+linux/Foundational_Components/Kernel/Kernel_Drivers/DDR
+linux/Foundational_Components/Kernel/Kernel_Drivers/ECAP
 linux/Foundational_Components/Kernel/Kernel_Drivers/Display/DSS7
 linux/Foundational_Components/Kernel/Kernel_Drivers/DM-Timer
 linux/Foundational_Components/Kernel/Kernel_Drivers/EQEP
@@ -94,15 +96,21 @@ linux/Foundational_Components/Power_Management/pm_low_power_modes
 linux/Foundational_Components/Power_Management/pm_wakeup_sources
 linux/Foundational_Components/Power_Management/pm_sw_arch
 linux/Foundational_Components/Power_Management/pm_debug
+linux/Foundational_Components/Power_Management/pm_upstream
 
 linux/Foundational_Components/System_Security/Security_overview
 linux/Foundational_Components/System_Security/SELinux
 linux/Foundational_Components/System_Security/Auth_boot
+linux/Foundational_Components/System_Security/Memory_Firewalls
+linux/Foundational_Components_Secure_Boot
+linux/Foundational_Components/System_Security/Filesystem_Encryption
+linux/Foundational_Components/System_Security/Post_Quantum_Cryptography
 
 linux/Foundational_Components_PRU_Subsystem
 linux/Foundational_Components/PRU-ICSS-Linux-Drivers
 linux/Foundational_Components/PRU-ICSS/Linux_Drivers/RemoteProc
 linux/Foundational_Components/PRU-ICSS/Linux_Drivers/RPMsg
+linux/Foundational_Components/PRU-ICSS/Linux_Drivers/pruss-uart
 linux/Foundational_Components/PRU-ICSS/RPMsg_Quick_Start_Guide
 linux/Foundational_Components/PRU-ICSS-Hardware
 linux/Foundational_Components/PRU-ICSS/PRU-EVMs
@@ -168,18 +176,21 @@ linux/How_to_Guides/Target/How_to_enable_DT_overlays_in_linux
 linux/How_to_Guides/Target/How_to_playback_audio_over_HDMI
 linux/How_to_Guides/Target/How_to_enable_Microtips_LVDS_Panel
 linux/How_to_Guides/Target/How_To_Enable_M2CC3301_in_linux
+linux/How_to_Guides/Target/How_to_enable_SSC_for_DSS
 linux/How_to_Guides/Target/How_to_Use_K3Conf_Tool
 linux/How_to_Guides/Target/Runtime_debug_unlock_on_secure_device
 linux/How_to_Guides/Target/How_to_Tune_Real_Time_Linux
 linux/How_to_Guides/FAQ/How_to_Check_Device_Tree_Info
 linux/How_to_Guides/FAQ/How_to_Integrate_Open_Source_Software
+linux/How_to_Guides/FAQ/How_to_work_with_SBOM
 linux/How_to_Guides_Hardware_Setup_with_CCS
-linux/How_to_Guides/Hardware_Setup_with_CCS/AM62x_EVM_Hardware_Setup
+common/How_to_Guides/AM62x_EVM_Hardware_Setup
 
 linux/Demo_User_Guides/index_Demos
 linux/Demo_User_Guides/TI_Apps_Launcher_User_Guide
 linux/Demo_User_Guides/Seva_Store
 linux/Demo_User_Guides/Chromium_Browser
+linux/Demo_User_Guides/GUI_Frameworks_User_Guide
 
 common/PRU-ICSS/Getting_Started_with_PSSP
 common/PRU-ICSS/Header_Files
@@ -200,5 +211,8 @@ common/PRU-ICSS/PRU-Getting-Started-Labs_Lab4_TIRTOS
 common/PRU-ICSS/PRU-Getting-Started-Labs_Lab5
 common/PRU-ICSS/PRU-Hands-on-Labs
 common/PRU-ICSS/Resource_Tables
+
+boards/index
+boards/beagle/BeaglePlay/BeaglePlay
 
 linux/Documentation_Tarball

@@ -21,7 +21,7 @@ is based on C99 C with some additions and restrictions OpenCL supports
 both data parallel and task parallel programming paradigms. Data
 parallel execution parallelizes the execution across compute units on a
 device. Task parallel execution enables asynchronous dispatch of tasks
-to each compute unit. For more info, please refer to `OpenCL User’s
+to each compute unit. For more info, please refer to `OpenCL User's
 Guide <http://downloads.ti.com/mctools/esd/docs/opencl>`__
 
 .. rubric:: Use Cases
@@ -68,23 +68,7 @@ uses RPMSG framework on the ARM which communicates to the counterpart on
 the slave core. On the slave core, it uses Codec engine and Frame
 Component for the video/image codec processing on IVA.
 
-.. raw:: html
-
-   <div class="center">
-
-.. raw:: html
-
-   <div class="floatnone">
-
 .. Image:: /images/Mm_software_overview_v3.png
-
-.. raw:: html
-
-   </div>
-
-.. raw:: html
-
-   </div>
 
 **Overview of the Multimedia Software Stack using DCE**
 AM57xx as an example has the following accelerators
@@ -119,7 +103,7 @@ In AM57xx, the hardware accelerators are capable of the following
    -  Sample Image Processing Kernels integrated in the DSP gstreamer
       plugin: Median2x2, Median3x3, Sobel3x3, Conv5x5, Canny
 
-For more info, please refer to the `DCE Developer’s
+For more info, please refer to the `DCE Developer's
 Guide <http://processors.wiki.ti.com/index.php/DRA7xx_GLSDK_Software_Developers_Guide>`__
 
 .. rubric:: Use Cases
@@ -258,7 +242,7 @@ and DSP processors in a multi-processor environment.
 +------------+----------------------------------------------------------+-----------------------------------------------------------------------------------+
 |            | Pros                                                     | Cons                                                                              |
 +============+==========================================================+===================================================================================+
-| OpenCL     | Easy porting                                             | Customer don’t have control over memory layout etc. to handle optimize DSP code   |
+| OpenCL     | Easy porting                                             | Customer don't have control over memory layout etc. to handle optimize DSP code   |
 |            | No DSP programming                                       |                                                                                   |
 |            | Standard OpenCL APIs                                     |                                                                                   |
 +------------+----------------------------------------------------------+-----------------------------------------------------------------------------------+

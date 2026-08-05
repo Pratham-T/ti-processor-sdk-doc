@@ -108,9 +108,9 @@ The MACHINE can be set to |__SDK_BUILD_MACHINE__|, for example.
       Processor SDK image with Arago + EdgeAI filesystem.  See `Build Options`_ for a list of
       additional targets.
 
-      .. tabs::
+      .. tab-set::
 
-         .. tab:: Build Linux SD card Image
+         .. tab-item:: Build Linux SD card Image
 
             .. code-block:: console
 
@@ -121,7 +121,7 @@ The MACHINE can be set to |__SDK_BUILD_MACHINE__|, for example.
                $ . conf/setenv
                $ MACHINE=am62axx-evm bitbake -k tisdk-edgeai-image
 
-         .. tab:: Build RT-Linux SD card Image
+         .. tab-item:: Build RT-Linux SD card Image
 
             .. code-block:: console
 
@@ -138,9 +138,9 @@ The MACHINE can be set to |__SDK_BUILD_MACHINE__|, for example.
       Processor SDK image with arago filesystem.  See `Build Options`_ for a list of
       additional targets.
 
-      .. tabs::
+      .. tab-set::
 
-         .. tab:: Build Linux SD card Image
+         .. tab-item:: Build Linux SD card Image
 
             .. code-block:: console
 
@@ -151,7 +151,7 @@ The MACHINE can be set to |__SDK_BUILD_MACHINE__|, for example.
                $ . conf/setenv
                $ MACHINE=<machine> bitbake -k tisdk-default-image
 
-         .. tab:: Build RT-Linux SD card Image
+         .. tab-item:: Build RT-Linux SD card Image
 
             .. code-block:: console
 
@@ -171,9 +171,9 @@ The MACHINE can be set to |__SDK_BUILD_MACHINE__|, for example.
 
          * :file:`tisdk-jailhouse-image` is not applicable for am62xxsip-evm and beagleplay-ti.
 
-      .. tabs::
+      .. tab-set::
 
-         .. tab:: Build Jailhouse Linux SD card Image
+         .. tab-item:: Build Jailhouse Linux SD card Image
 
             .. code-block:: console
 
@@ -185,7 +185,7 @@ The MACHINE can be set to |__SDK_BUILD_MACHINE__|, for example.
                $ echo 'TI_EXTRAS="tie-jailhouse"' >> conf/local.conf
                $ MACHINE=<machine> bitbake -k tisdk-jailhouse-image
 
-         .. tab:: Build Jailhouse RT-Linux SD card Image
+         .. tab-item:: Build Jailhouse RT-Linux SD card Image
 
             .. code-block:: console
 
@@ -196,6 +196,24 @@ The MACHINE can be set to |__SDK_BUILD_MACHINE__|, for example.
                $ . conf/setenv
                $ echo 'TI_EXTRAS="tie-jailhouse"' >> conf/local.conf
                $ MACHINE=<machine> ARAGO_RT_ENABLE=1 bitbake -k tisdk-jailhouse-image
+
+   .. ifconfig:: CONFIG_part_variant in ('AM62LX')
+
+      * The command below will build the :file:`tisdk-evse-image`, which is the
+        Processor SDK image with arago filesystem and `AM62L-EVSE-DEV-EVM <https://www.ti.com/lit/ug/slvudn0/slvudn0.pdf>`_ support (EV charging Use case support).
+
+      .. code-block:: console
+
+         $ git clone https://git.ti.com/git/arago-project/oe-layersetup.git tisdk
+         $ cd tisdk
+         $ ./oe-layertool-setup.sh -f configs/processor-sdk/<oeconfig-file>
+         $ cd build
+         $ . conf/setenv
+         $ MACHINE=am62lxx-evm ARAGO_RT_ENABLE=1 bitbake -k tisdk-evse-image
+
+      .. important::
+
+         EVSE (EV Charging) image uses RT-Linux and is not supported on Linux.
 
 .. ifconfig:: CONFIG_sdk in ('JACINTO','j7_foundational')
 
@@ -305,10 +323,11 @@ In addition to individual components packages, the following table
 provides a list of build targets supported. These are the <target> used
 in the command:
 
-``MACHINE=<machine> bitbake <target>``
+.. code-block:: console
 
-The "Build Output" is given relative to the
-**deploy-ti** directory.
+   MACHINE=<machine> bitbake <target>
+
+The build system places the "Build Output" relative to :file:`deploy-ti`
 
 
 .. ifconfig:: CONFIG_sdk in ('SITARA')
@@ -377,6 +396,8 @@ The "Build Output" is given relative to the
       | tisdk-default-image          | images/<machine>/tisdk-default-image-<machine>.rootfs.tar.xz   | Target Filesystem          |
       +------------------------------+----------------------------------------------------------------+----------------------------+
       | tisdk-jailhouse-image        | images/<machine>/tisdk-jailhouse-image-<machine>.rootfs.tar.xz | Jailhouse Filesystem       |
+      +------------------------------+----------------------------------------------------------------+----------------------------+
+      | tisdk-evse-image             | images/<machine>/tisdk-evse-image-rt-<machine>.rootfs.tar.xz   | EV Charging Filesystem     |
       +------------------------------+----------------------------------------------------------------+----------------------------+
       | tisdk-base-image             | images/<machine>/tisdk-base-image-<machine>.rootfs.tar.xz      | Minimal Target Filesytem   |
       +------------------------------+----------------------------------------------------------------+----------------------------+
@@ -724,7 +745,6 @@ The "Build Output" is given relative to the
 Recipes
 -------
 
-
 .. rubric:: Recipe Basics
    :name: Recipe Basics
 
@@ -733,105 +753,69 @@ granularity of recipe development and debug. Specifying a recipe name,
 minus the version (if the version is appended to the name), will build
 the recipe and all its dependencies.
 
-.. ifconfig:: CONFIG_sdk in ('SITARA')
+For example, the following command builds only the zlib recipe and all the
+dependencies it defines.
 
-   For example, the command below builds only the opencl recipe and all the
-   dependencies it defines.
+.. code-block:: console
 
-   ``MACHINE=<machine> bitbake opencl``
+   MACHINE=<machine> bitbake zlib
 
-   After the bitbake command above is successfully done,
-   :file:`arago-tmp-[toolchain]/work/<machine>-linux-gnueabi/opencl` directory
-   will be available including the original source code under the git
-   folder, independent shared objects (.so files) under packages-split
-   folder, and IPKs under deploy-ipks folder.
+After the preceding bitbake command completes successfully, the
+:file:`arago-tmp-default-glibc/work/aarch64-oe-linux/zlib` directory gets created.
+It has the original source code, shared objects (.so files) in the packages-split folder
+and IPK packages in the deploy-ipks folder.
 
-.. ifconfig:: CONFIG_sdk in ('JACINTO','j7_foundational')
+.. note::
 
-   For example, the command below builds only the k3conf recipe and all the
-   dependencies it defines.
+   Please note that the output of a recipe can be in another folder under :file:`arago-tmp-[toolchain]/work` directory, depending on the defines of the recipe.
+   You can call the following command from yocto's build directory to get the path to the workdir of your recipe.
 
-   ``MACHINE=<machine> bitbake k3conf``
+   .. code-block:: console
 
-   After the bitbake command above is successfully done,
-   **arago-tmp-[toolchain]/work/<machine>-linux/k3conf** directory
-   will be available including the original source code under the git
-   folder, independent shared objects (.so files) under packages-split
-   folder, and IPKs under deploy-ipks folder.
-
-.. note:: Please note that the output of a recipe can be in another folder under "arago-tmp-[toolchain]/work" directory, depending on the defines of the recipe.
-
+      MACHINE=<machine> bitbake-getvar -r <recipe-name> WORKDIR --value
 
 .. rubric:: Forced Re-compilation
    :name: Forced Re-compilation
 
-.. ifconfig:: CONFIG_sdk in ('SITARA')
+When needed, source code under the work directory (e.g.,
+:file:`arago-tmp-default-glibc/work/aarch64-oe-linux/zlib/<version>/zlib-<version>`) can
+be modified. After the modification is done, run the following commands
+to force recompilation with the new code and rebuilding of the recipe,
+For example,
 
-   When needed, source code under the work directory (e.g.,
-   **arago-tmp-[toolchain]/work/<machine>-linux-gnueabi/opencl**/git) can
-   be modified. After the modification is done, run the following commands
-   to force recompilation with the new code and rebuilding of the recipe,
-   e.g.,
-   ``MACHINE=<machine> bitbake opencl --force -c compile``
+.. code-block:: console
 
-   ``MACHINE=<machine> bitbake opencl``
-
-.. ifconfig:: CONFIG_sdk in ('JACINTO','j7_foundational')
-
-   When needed, source code under the work directory (e.g.,
-   **arago-tmp-[toolchain]/work/<machine>-linux/k3conf**/git) can
-   be modified. After the modification is done, run the following commands
-   to force recompilation with the new code and rebuilding of the recipe,
-   e.g.,
-
-   ``MACHINE=<machine> bitbake k3conf --force -c compile``
-
-   ``MACHINE=<machine> bitbake k3conf``
+   MACHINE=<machine> bitbake zlib --force -c compile
+   MACHINE=<machine> bitbake zlib
 
 .. rubric:: Installing Package
    :name: installing-package
 
-.. ifconfig:: CONFIG_sdk in ('SITARA')
+To install a modified and rebuilt package, copy the new IPKs from the
+deploy-ipks folder (e.g., :file:`arago-tmp-default-glibc/work/aarch64-oe-linux/zlib/<version>/deploy-ipks`)
+to the target system and then run the following command to install the IPKs:
 
-   To install a modified and rebuilt package, copy the new IPKs from the
-   deploy-ipks folder (e.g.,
-   **arago-tmp-[toolchain]/work/<machine>-linux-gnueabi/opencl/[version]/deploy-ipks**)
-   to the target system and then run the following command to install the
-   IPKs:
+.. code-block:: console
 
-   ``opkg install [package_ipk].ipk``
-
-.. ifconfig:: CONFIG_sdk in ('JACINTO','j7_foundational')
-
-   To install a modified and rebuilt package, copy the new IPKs from the
-   deploy-ipks folder (e.g.,
-   **arago-tmp-[toolchain]/work/<machine>-linux/k3conf/[version]/deploy-ipks**)
-   to the target system and then run the following command to install the
-   IPKs:
-
-   ``opkg install [package_ipk].ipk``
+   opkg install [package_ipk].ipk
 
 .. rubric:: Cleaning a Built Recipe
    :name: cleaning-a-built-recipe
 
-A built recipe can be cleaned using:
+A built recipe can be entirely cleaned using:
 
-``MACHINE=<machine> bitbake <target> -c cleansstate``
+.. code-block:: console
 
-or
+   MACHINE=<machine> bitbake <target> -c cleanall
 
-``MACHINE=<machine> bitbake <target> -c cleanall``
-
-The cleansstate task will clean recipe's work directory and remove the
-recipe's output from the dependency tree used by other recipe's during
-compilation.
+The cleanall task removes all output files, shared state (sstate) cache and downloaded source files for a target (i.e. the contents of DL_DIR)
 
 See also
 ========
 
 General information on Yocto, OpenEmbedded and Arago projects can be found at:
 
--  `Yocto Project <http://yoctoproject.org/>`__
--  `OpenEmbedded <http://openembedded.org/>`__
+-  `Yocto Project <https://yoctoproject.org/>`__
+-  `OpenEmbedded <https://openembedded.org/>`__
 -  `Arago Project <https://git.yoctoproject.org/meta-arago>`__
 

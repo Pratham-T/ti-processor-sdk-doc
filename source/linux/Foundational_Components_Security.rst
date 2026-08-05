@@ -12,3 +12,6 @@ Security
    Foundational_Components_Secure_Boot
    Foundational_Components/System_Security/SELinux
    Foundational_Components/System_Security/Auth_boot
+   Foundational_Components/System_Security/Memory_Firewalls
+   Foundational_Components/System_Security/Filesystem_Encryption
+   Foundational_Components/System_Security/Post_Quantum_Cryptography

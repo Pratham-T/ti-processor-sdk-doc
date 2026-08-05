@@ -1,3 +1,5 @@
+.. _nnstreamer-label:
+
 NNStreamer
 ==========
 
@@ -10,7 +12,7 @@ https://nnstreamer.ai/
 Supported versions
 ------------------
 
-  - NNStreamer 2.4.2
+  - NNStreamer 2.6.0
 
 Testing NNStreamer
 ------------------
@@ -18,7 +20,7 @@ Testing NNStreamer
 .. code-block:: console
 
     root@am62xx-evm:~# nnstreamer-check
-    NNStreamer version: 2.4.2
+    NNStreamer version: 2.6.0
                loaded : TRUE
                path   : /usr/lib/gstreamer-1.0/libnnstreamer.so
     ...
@@ -37,7 +39,7 @@ Run the included unit tests:
 To list available elements:
 
 .. code-block:: console
-      
+
     root@am62xx-evm:~# gst-inspect-1.0 | grep nnstreamer
     nnstreamer:  tensor_aggregator: TensorAggregator
     nnstreamer:  tensor_converter: TensorConverter

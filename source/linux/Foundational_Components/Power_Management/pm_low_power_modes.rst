@@ -8,12 +8,6 @@ Low Power Modes
 Overview
 ********
 
-.. ifconfig:: CONFIG_part_variant in ('AM62X')
-
-   .. important::
-
-      SK-AM62-SIP EVM does NOT support low power modes.
-
 The following sections describe a high-level description of the different low power modes (LPM) of the
 device. If your application requires inactive power management, you must determine which
 low power mode described below satisfies your requirements. Each mode must be evaluated
@@ -24,13 +18,13 @@ to highest power consumption):
 
 #. Partial I/O
 #. I/O Only Plus DDR
-#. Deep Sleep
+#. DeepSleep
 #. MCU Only
 
-TI SDK 10.0 (ti-linux-6.6.y kernel and 10.0 DM firmware) adds support for
-an updated LPM Software Architecture that seamlessly manages the various
-Suspend-to-RAM modes supported by AM62 family of devices. More details about
-this architecture can be found in :ref:`LPM constraints framework<pm_constraints_fwk>` section.
+More details about the low power mode architecture can be found in
+:ref:`LPM constraints framework<pm_constraints_fwk>` section.
+
+.. _pm_partial_io:
 
 ***********
 Partial I/O
@@ -53,17 +47,25 @@ wakeup event is triggered.
 
       Only AM62 LP-SK EVM supports Partial I/O mode.
 
-The reference implementation in this SDK implements Partial I/O as a
-poweroff state. On poweroff, Linux ti_sci driver checks the potential
-Partial I/O wakeup sources for being enabled. If one of the wakeup
-sources is found to be enabled, Partial I/O is entered instead of poweroff.
+Partial I/O is a poweroff state. Upon poweroff, the Linux ti_sci driver 
+chooses Partial I/O entry if any CAN I/O wakeup sources are present.
 
-The following wakeup sources have been configured for Partial I/O:
-mcu_uart0, mcu_mcan0, and mcu_mcan1. Partial I/O mode can only be tested
-when `k3-am62x-sk-lpm-wkup-sources.dtso <https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel/tree/arch/arm64/boot/dts/ti/k3-am62x-sk-lpm-wkup-sources.dtso?h=11.01.05>`__
-overlay is loaded. Please refer to :ref:`How to enable DT overlays<howto_dt_overlays>` for more details.
+Partial I/O supports wakeup sources mcu_mcan0 and mcu_mcan1. For more
+information about enabling CAN wakeup, see
+:ref:`CAN I/O Daisy Chain<pm_wakeup_sources_can>`.
 
-After Linux boots, the MCAN wakeup for Partial I/O is enabled.
+.. ifconfig:: CONFIG_part_variant in ('AM62DX')
+
+   .. important::
+
+      Currently, wakeup from CAN is not available on AM62D EVM, but CAN
+      wakeup still needs to be **enabled** to enter Partial I/O. To wakeup
+      from Partial I/O, enable WKUP UART wakeup by entering the following
+      command:
+
+      .. code-block:: console
+
+         root@<machine>:~# devmem2 0x4084024 w 0x20050000  # MCU_PADCONFIG9 for wkup_uart0
 
 Enter Partial I/O mode with the following command:
 
@@ -76,13 +78,13 @@ the console output will stop at the following lines:
 
 .. code-block:: text
 
-   [   51.698039] systemd-shutdown[1]: Powering off.
-   [   51.769478] reboot: Power down
+   [   74.310565] systemd-shutdown[1]: Powering off.
+   [   74.396204] reboot: Power down
+   [   74.399358] ti-sci 44043000.system-controller: Entering Partial-IO because a powered wakeup-enabled device was found.
 
-The system has entered Partial I/O and can only be woken up with an
-activity on the I/O pin programmed for wakeup. For example, if mcu_mcan0
-wakeup was enabled, grounding Pin 22 of J8 MCU Header will wakeup the
-system and it will go through a normal Linux boot process.
+The above output indicates that the system has entered Partial I/O. The
+system will resume to through a normal Linux boot process by triggering
+activity on the wakeup I/O pin programmed.
 
 .. _pm_io_only_plus_ddr:
 
@@ -94,7 +96,7 @@ I/O Only Plus DDR
 
    This mode is not applicable for AM62X.
 
-.. ifconfig:: CONFIG_part_variant in ('AM62AX' , 'AM62PX')
+.. ifconfig:: CONFIG_part_variant in ('AM62AX' , 'AM62PX', 'AM62DX')
 
    This mode is similar to Partial I/O mode, with the major distinction being
    that the DDR memory is kept in self refresh to save context. All the processor
@@ -119,13 +121,16 @@ I/O Only Plus DDR
 
       .. important:: Jumper J12 should be connected on SK to enable system to enter I/O Only plus DDR mode.
 
-   The wakeup sources that can be used to wake the system from I/O Only Plus
-   DDR are mcu_uart0, mcu_mcan0, mcu_mcan1 and wkup_uart0. To use the mcu_mcan0
-   and mcu_mcan1 wakeup sources, apply the
-   `k3-am62x-sk-lpm-io-ddr-wkup-sources.dtso <https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel/tree/arch/arm64/boot/dts/ti/k3-am62x-sk-lpm-io-ddr-wkup-sources.dtso?h=11.01.05>`__
-   overlay. Please refer to :ref:`How to enable DT overlays<howto_dt_overlays>`
-   for more details. To use the mcu_uart0 and wkup_uart0 wakeup sources, direct
-   register writes can be used to enable wakeup after Linux boots.
+   .. ifconfig:: CONFIG_part_variant in ('AM62DX')
+
+      .. important:: Jumper J16 should be connected on SK to enable system to enter I/O Only plus DDR mode.
+
+   I/O Only Plus DDR supports wakeup sources mcu_uart0, mcu_mcan0,
+   mcu_mcan1 and wkup_uart0. To use the mcu_mcan0 and mcu_mcan1 wakeup
+   sources, see
+   :ref:`CAN I/O Daisy Chain<pm_wakeup_sources_can>`.
+   To use the mcu_uart0 and wkup_uart0 wakeup sources, direct register
+   writes enable wakeup after Linux boots.
 
    .. rubric:: Following commands set the wakeup EN bit, enable receive for pad in PADCONFIG register and can
                be used to enable wakeup from mcu_uart0 and wkup_uart0 pins respectively.
@@ -149,23 +154,25 @@ I/O Only Plus DDR
                Main UART, USB0, and USB1 as these wakeup sources are not
                supported for this mode.
 
-   .. ifconfig:: CONFIG_part_variant in ('AM62AX')
+   .. ifconfig:: CONFIG_part_variant in ('AM62AX', 'AM62DX')
 
       .. code-block:: console
 
-         root@am62axx-evm:~# echo disabled > /sys/class/rtc/rtc0/device/power/wakeup
-         root@am62axx-evm:~# echo disabled > /sys/bus/platform/devices/2800000.serial/power/wakeup
-         root@am62axx-evm:~# echo disabled > /sys/devices/platform/bus@f0000/f900000.dwc3-usb/power/wakeup
-         root@am62axx-evm:~# echo disabled > /sys/devices/platform/bus@f0000/f910000.dwc3-usb/power/wakeup
+         root@<machine>:~# echo disabled > /sys/class/rtc/rtc0/device/power/wakeup
+         root@<machine>:~# echo disabled > /sys/bus/platform/drivers/alarmtimer/*/power/wakeup
+         root@<machine>:~# echo disabled > /sys/bus/platform/devices/2800000.serial/power/wakeup
+         root@<machine>:~# echo disabled > /sys/devices/platform/bus@f0000/f900000.dwc3-usb/power/wakeup
+         root@<machine>:~# echo disabled > /sys/devices/platform/bus@f0000/f910000.dwc3-usb/power/wakeup
 
    .. ifconfig:: CONFIG_part_variant in ('AM62PX')
 
       .. code-block:: console
 
-         root@am62pxx-evm:~# echo disabled > /sys/class/rtc/rtc0/device/power/wakeup
-         root@am62pxx-evm:~# echo disabled > /sys/bus/platform/devices/2800000.serial/power/wakeup
-         root@am62pxx-evm:~# echo disabled > /sys/devices/platform/bus@f0000/f900000.usb/power/wakeup
-         root@am62pxx-evm:~# echo disabled > /sys/devices/platform/bus@f0000/f910000.usb/power/wakeup
+         root@<machine>:~# echo disabled > /sys/class/rtc/rtc0/device/power/wakeup
+         root@<machine>:~# echo disabled > /sys/bus/platform/drivers/alarmtimer/*/power/wakeup
+         root@<machine>:~# echo disabled > /sys/bus/platform/devices/2800000.serial/power/wakeup
+         root@<machine>:~# echo disabled > /sys/devices/platform/bus@f0000/f900000.usb/power/wakeup
+         root@<machine>:~# echo disabled > /sys/devices/platform/bus@f0000/f910000.usb/power/wakeup
 
    .. rubric:: Then, configure PMIC register bit to turn off only selected rails for this mode.
 
@@ -173,15 +180,15 @@ I/O Only Plus DDR
 
       .. code-block:: console
 
-         root@am62axx-evm:~# i2cset -f -y -m 0xFF -r -a 0 0x48 0x86 0x1
+         root@<machine>:~# i2cset -f -y -m 0xFF -r -a 0 0x48 0x86 0x1
 
       The register write has been done to enable PMIC to enter `PMIC S2R <https://www.ti.com/lit/ug/slvucm3/slvucm3.pdf>`_ .
 
-   .. ifconfig:: CONFIG_part_variant in ('AM62PX')
+   .. ifconfig:: CONFIG_part_variant in ('AM62D')
 
       .. code-block:: console
 
-         root@am62pxx-evm:~# i2cset -f -y -m 0xFF -r -a 0 0x48 0x86 0x2
+         root@<machine>:~# i2cset -f -y -m 0xFF -r -a 0 0x48 0x86 0x2
 
    .. rubric:: Now, the SoC can be suspended using the following command:
 
@@ -217,12 +224,12 @@ I/O Only Plus DDR
 
       The system will enter I/O Only plus DDR mode only if DM selects it based on existing constraints.
 
-**********
-Deep Sleep
-**********
+*********
+DeepSleep
+*********
 
-Deep Sleep AKA Suspend-to-RAM is a low-power mode that allows an embedded device
-to retain its state in RAM while the processor is turned off.
+DeepSleep, also known as Suspend-to-RAM, is a low-power mode that allows an
+embedded device to retain its state in RAM while the processor is turned off.
 This can save a significant amount of power, especially in devices that are
 battery-powered.
 
@@ -234,7 +241,7 @@ The benefits of using deep sleep in embedded devices:
    reducing the amount of time that the processor is idle. This is because the processor can
    be kept in a low-power state when it is not needed.
 
-In order to enter Deep Sleep, use the following command:
+In order to enter DeepSleep, use the following command:
 
 .. ifconfig:: CONFIG_part_variant in ('AM62X')
 
@@ -259,7 +266,7 @@ In order to enter Deep Sleep, use the following command:
       [  444.826567] psci: CPU2 killed (polled 0 ms)
       [  444.830170] psci: CPU3 killed (polled 0 ms)
 
-.. ifconfig:: CONFIG_part_variant in ('AM62AX' , 'AM62PX')
+.. ifconfig:: CONFIG_part_variant in ('AM62AX' , 'AM62PX', 'AM62DX')
 
    .. code-block:: console
 
@@ -282,7 +289,7 @@ In order to enter Deep Sleep, use the following command:
       [  230.292413] psci: CPU2 killed (polled 4 ms)
       [  230.295457] psci: CPU3 killed (polled 0 ms)
 
-This partially indicates that Linux has finished it's Deep Sleep suspend sequence.
+This partially indicates that Linux has finished it's DeepSleep suspend sequence.
 
 .. ifconfig:: CONFIG_part_variant in ('AM62X')
 
@@ -295,7 +302,7 @@ This partially indicates that Linux has finished it's Deep Sleep suspend sequenc
    The system will enter deep sleep mode only if DM selects it based on existing constraints.
 
 Refer to the :ref:`Wakeup Sources<pm_wakeup_sources>` section for information on how to wakeup the device from
-Deep Sleep mode using one of the supported wakeup sources.
+DeepSleep mode using one of the supported wakeup sources.
 
 ********
 MCU Only
@@ -303,11 +310,11 @@ MCU Only
 
 .. _pm_mcu_only:
 
-Similar to Deep Sleep, with the major distinction being that the MCU core is kept alive to run applications.
+Similar to DeepSleep, with the major distinction being that the MCU core is kept alive to run applications.
 The benefits of using MCU Only mode:
 
 #. Low power consumption: MCU Only mode can save a significant amount of power, especially in battery-powered
-   devices. This is because the rest of the SoC status is the same as Deep Sleep and DDR is in self-refresh.
+   devices. This is because the rest of the SoC status is the same as DeepSleep and DDR is in self-refresh.
 #. Run background tasks: This mode can be used to run background tasks that do not require the full power of the system.
    For example, you could use the firmware on the MCU core to run a watchdog timer, a sensor polling loop,
    or a network communication task.
@@ -387,7 +394,35 @@ MCU Only mode using one of the supported wakeup sources.
 Limitations
 ***********
 
-HWRNG support on GP devices is incompatible with Deep Sleep and MCU Only
+.. ifconfig:: CONFIG_part_variant in ('AM62X')
+
+   .. important::
+
+      SK-AM62-SIP EVM does NOT support low power modes.
+
+   .. important::
+
+      When using low power modes on SK-AM62-LP EVM, USB1 **cannot** be connected
+      to anything. When USB1 is connected and a low power mode is entered, the
+      EVM fails to resume to an active Linux state.
+
+      **Hardware Workaround:** Remove resistor R131 from the SK-AM62-LP EVM to resolve
+      this limitation and enable proper resume from low power modes.
+
+.. ifconfig:: CONFIG_part_variant in ('AM62PX')
+
+   .. important::
+
+      When using low power modes on SK-AM62P-LP E1 or E1-1 EVMs, USB1 **cannot** be connected
+      to anything. When USB1 is connected and a low power mode is entered, the
+      EVM fails to resume to an active Linux state.
+
+      **Hardware Workaround:** Remove resistor R169 from the SK-AM62P-LP EVM to resolve
+      this limitation and enable proper resume from low power modes.
+
+RT (Real-Time) Linux does not support any low power modes.
+
+HWRNG support on GP devices is incompatible with DeepSleep and MCU Only
 modes. To test LPM on GP devices, HWRNG has to be unloaded one-time
 before running the Suspend-to-RAM command:
 
@@ -404,7 +439,7 @@ in the below table:
 +-----------------+-----------------------------------+------------------------------------+
 |  LPM            |  Firmware v10.0                   |  Firmware < v10.0                  |
 +=================+===================================+====================================+
-| TI Kernel 6.6   |   All low power modes supported   |    Only Deep Sleep supported       |
+| TI Kernel 6.6   |   All low power modes supported   |    Only DeepSleep supported        |
 +-----------------+-----------------------------------+------------------------------------+
 | TI Kernel < 6.6 |   All low power modes supported   |    All low power modes supported   |
 +-----------------+-----------------------------------+------------------------------------+

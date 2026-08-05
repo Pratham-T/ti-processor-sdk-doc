@@ -46,7 +46,7 @@ of the Pulse-Width Modulation Subsystem (PWMSS).
 .. rubric:: Driver Usage
    :name: driver-usage-pwm
 
-.. _Using-PWM-with-sysfs:
+.. _Using_PWM_with_sysfs:
 
 .. rubric:: Using PWM with the sysfs interface
    :name: using-pwm-with-sysfs-interface
@@ -78,7 +78,7 @@ When a PWM channel is exported a pwmX directory will be created in the pwmchipN 
 
 -  **polarity**
 
-  Changes the polarity of the PWM signal. The value written is the string “normal” or “inversed”.
+  Changes the polarity of the PWM signal. The value written is the string "normal" or "inversed".
 
 -  **enable**
 
@@ -152,7 +152,7 @@ A few examples of kernel drivers using the kernel PWM API:
 - pwm-vibrator: `drivers/input/misc/pwm-vibra.c <https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel/tree/drivers/input/misc/pwm-vibra.c?h=ti-linux-5.10.y>`_
 
 .. rubric:: Troubleshooting the PWM setup
-   :name: troubleshoot-the-pwm-setup
+   :name: troubleshoot_the_pwm_setup
 
 The current PWM settings for ePWM and eCAP(APWM) can be monitored from the debugfs ``pwm`` entry.
 
@@ -188,5 +188,5 @@ The current PWM settings for ePWM and eCAP(APWM) can be monitored from the debug
 EHRPWM can be tested using the following overlays for each of the following devices:
 
 #. AM62X SK: k3-am625-sk-rpi-hdr-ehrpwm.dtso
-#. AM62AX SK: k3-am62a7-sk-rpi-hdr-ehrpwm.dtso
+#. AM62AX SK and AM62DX EVM: k3-am62a7-sk-rpi-hdr-ehrpwm.dtso
 #. AM62PX SK: k3-am62p5-sk-rpi-hdr-ehrpwm.dtso

@@ -15,21 +15,15 @@ Build
       the top-level directory and can be identified by looking for the
       "licenses" directory.
 
-   .. rubric:: Setting up the toolchain paths
-
-   .. include:: ../../Overview/GCC_ToolChain.rst
-      :start-after: .. start_include_yocto_toolchain_host_setup
-      :end-before: .. end_include_yocto_toolchain_host_setup
-
    .. code-block:: console
 
       $ cd <path to tf-a dir>
 
-      $ make CROSS_COMPILE="$CROSS_COMPILE_64" ARCH=aarch64 PLAT=k3 TARGET_BOARD=am62l am62l_bl1
+      $ make CROSS_COMPILE="$CROSS_COMPILE_64" ARCH=aarch64 PLAT=k3low TARGET_BOARD=am62lx bl1
 
       <or to build bl-1 and bl-31 binaries from TF-A repo>
 
-	   $ make CROSS_COMPILE="$CROSS_COMPILE_64" ARCH=aarch64 PLAT=k3 TARGET_BOARD=am62l
+	   $ make CROSS_COMPILE="$CROSS_COMPILE_64" ARCH=aarch64 PLAT=k3low TARGET_BOARD=am62lx
 
 .. _Build-U-Boot-label:
 
@@ -80,15 +74,7 @@ Several prebuilt images are required from the TI Processor SDK for building U-Bo
    - ti-linux-firmware (BINMAN_INDIRS): Prebuilt binaries for DM and SYSFW available `here
      <https://git.ti.com/cgit/processor-firmware/ti-linux-firmware/log/?h=ti-linux-firmware>`__.
 
-All of these are available in the SDK at :file:`<path to tisdk>/board-support/prebuilt-images>`
-
-Go :ref:`here <download-and-install-sdk>` to download and install the SDK.
-
-.. rubric:: Setting up the toolchain paths
-
-.. include:: ../../Overview/GCC_ToolChain.rst
-   :start-after: .. start_include_yocto_toolchain_host_setup
-   :end-before: .. end_include_yocto_toolchain_host_setup
+All of these binaries are available in the SDK at :file:`<path to tisdk>/board-support/prebuilt-images>`
 
 .. ifconfig:: CONFIG_part_variant not in ('AM62LX')
 
@@ -297,8 +283,8 @@ Go :ref:`here <download-and-install-sdk>` to download and install the SDK.
    |  AM62X LP SK  | ``am62x_lpsk_r5_defconfig``        | ``am62x_lpsk_r5_defconfig am62x_r5_usbdfu.config``       | ``am62x_lpsk_r5_defconfig am62x_r5_usbmsc.config``       |
    |               | ``am62x_lpsk_a53_defconfig``       | ``am62x_lpsk_a53_defconfig``                             | ``am62x_lpsk_a53_defconfig``                             |
    +---------------+------------------------------------+----------------------------------------------------------+----------------------------------------------------------+
-   |  AM62SIP SK   | ``am62xsip_evm_r5_defconfig``      | ``am62xsip_evm_r5_defconfig am62x_r5_usbdfu.config``     | ``am62xsip_evm_r5_defconfig am62x_r5_usbmsc.config``     |
-   |               | ``am62xsip_evm_a53_defconfig``     | ``am62xsip_evm_a53_defconfig``                           | ``am62xsip_evm_a53_defconfig``                           |
+   |  AM62SIP SK   | ``am6254atl_evm_r5_defconfig``     | ``am6254atl_evm_r5_defconfig am62x_r5_usbdfu.config``    | ``am6254atl_evm_r5_defconfig am62x_r5_usbmsc.config``    |
+   |               | ``am6254atl_evm_a53_defconfig``    | ``am6254atl_evm_a53_defconfig``                          | ``am6254atl_evm_a53_defconfig``                          |
    +---------------+------------------------------------+----------------------------------------------------------+----------------------------------------------------------+
 
    .. note::
@@ -322,31 +308,42 @@ Go :ref:`here <download-and-install-sdk>` to download and install the SDK.
 
       $ cd $UBOOT_DIR
 
-      R5
-      To build tiboot3.bin. Saved in $UBOOT_DIR/out/r5.
+   R5 builds :file:`tiboot3.bin` to :file:`$UBOOT_DIR/out/r5`. A53 builds :file:`tispl.bin` and :file:`u-boot.img` to :file:`$UBOOT_DIR/out/a53` (requires :file:`bl31.bin` and :file:`tee-pager_v2.bin`).
 
-      For AM62X
+   .. rubric:: AM62X
+
+   .. code-block:: console
+
+      R5
       $ make ARCH=arm CROSS_COMPILE="$CROSS_COMPILE_32" am62x_evm_r5_defconfig O=$UBOOT_DIR/out/r5
       $ make ARCH=arm CROSS_COMPILE="$CROSS_COMPILE_32" O=$UBOOT_DIR/out/r5 BINMAN_INDIRS=$TI_LINUX_FW_DIR
 
-      For AM62X LP
-      $ make ARCH=arm CROSS_COMPILE="$CROSS_COMPILE_32" am62x_lpsk_r5_defconfig O=$UBOOT_DIR/out/r5
-      $ make ARCH=arm CROSS_COMPILE="$CROSS_COMPILE_32" O=$UBOOT_DIR/out/r5 BINMAN_INDIRS=$TI_LINUX_FW_DIR
-
-      For AM62SIP
-      NOTE: AM62SIP Uses config fragment model.
-      $ make ARCH=arm CROSS_COMPILE="$CROSS_COMPILE_32" am62x_evm_r5_defconfig am62xsip_sk_r5.config O=$UBOOT_DIR/out/r5
-      $ make ARCH=arm CROSS_COMPILE="$CROSS_COMPILE_32" O=$UBOOT_DIR/out/r5 BINMAN_INDIRS=$TI_LINUX_FW_DIR
-
       A53
-      To build tispl.bin and u-boot.img. Saved in $UBOOT_DIR/out/a53. Requires bl31.bin, tee-pager_v2.bin
-
-      For AM62X or AM62SIP
       $ make ARCH=arm CROSS_COMPILE="$CROSS_COMPILE_64" am62x_evm_a53_defconfig O=$UBOOT_DIR/out/a53
       $ make ARCH=arm CROSS_COMPILE="$CROSS_COMPILE_64" CC="$CC_64" BL31=$TFA_DIR/build/k3/lite/release/bl31.bin TEE=$OPTEE_DIR/out/arm-plat-k3/core/tee-pager_v2.bin O=$UBOOT_DIR/out/a53 BINMAN_INDIRS=$TI_LINUX_FW_DIR
 
-      For AM62X LP
+   .. rubric:: AM62X LP
+
+   .. code-block:: console
+
+      R5
+      $ make ARCH=arm CROSS_COMPILE="$CROSS_COMPILE_32" am62x_lpsk_r5_defconfig O=$UBOOT_DIR/out/r5
+      $ make ARCH=arm CROSS_COMPILE="$CROSS_COMPILE_32" O=$UBOOT_DIR/out/r5 BINMAN_INDIRS=$TI_LINUX_FW_DIR
+
+      A53
       $ make ARCH=arm CROSS_COMPILE="$CROSS_COMPILE_64" am62x_lpsk_a53_defconfig O=$UBOOT_DIR/out/a53
+      $ make ARCH=arm CROSS_COMPILE="$CROSS_COMPILE_64" CC="$CC_64" BL31=$TFA_DIR/build/k3/lite/release/bl31.bin TEE=$OPTEE_DIR/out/arm-plat-k3/core/tee-pager_v2.bin O=$UBOOT_DIR/out/a53 BINMAN_INDIRS=$TI_LINUX_FW_DIR
+
+   .. rubric:: AM62SIP
+
+   .. code-block:: console
+
+      R5
+      $ make ARCH=arm CROSS_COMPILE="$CROSS_COMPILE_32" am6254atl_evm_r5_defconfig O=$UBOOT_DIR/out/r5
+      $ make ARCH=arm CROSS_COMPILE="$CROSS_COMPILE_32" O=$UBOOT_DIR/out/r5 BINMAN_INDIRS=$TI_LINUX_FW_DIR
+
+      A53
+      $ make ARCH=arm CROSS_COMPILE="$CROSS_COMPILE_64" am6254atl_evm_a53_defconfig O=$UBOOT_DIR/out/a53
       $ make ARCH=arm CROSS_COMPILE="$CROSS_COMPILE_64" CC="$CC_64" BL31=$TFA_DIR/build/k3/lite/release/bl31.bin TEE=$OPTEE_DIR/out/arm-plat-k3/core/tee-pager_v2.bin O=$UBOOT_DIR/out/a53 BINMAN_INDIRS=$TI_LINUX_FW_DIR
 
 
@@ -434,9 +431,10 @@ Go :ref:`here <download-and-install-sdk>` to download and install the SDK.
 .. ifconfig:: CONFIG_part_variant in ('AM62LX')
 
    .. csv-table::
-      :header: "Board","SD / eMMC / UART / OSPI / USB DFU / USB MSC"
+      :header: "Board","SD / UART / OSPI / USB DFU","USB MSC"
 
-      "AM62LX EVM", ``am62lx_evm_defconfig``
+      "AM62LX EVM", ``am62lx_evm_defconfig``, ``am62lx_evm_defconfig``
+      "BeagleBadge", ``am62lx_badge_defconfig``, ""
 
    .. note::
 
@@ -447,6 +445,16 @@ Go :ref:`here <download-and-install-sdk>` to download and install the SDK.
       $ export UBOOT_DIR=<path-to-ti-u-boot>
       $ export TI_LINUX_FW_DIR=<path-to-ti-linux-firmware>
       $ export TFA_DIR=<path-to-arm-trusted-firmware>
+      $ export OPTEE_DIR=<path-to-ti-optee-os>
+
+      # Build for AM62LX EVM:
+      $ export UBOOT_CONFIG=am62lx_evm_defconfig
+      $ export TFA_BOARD=am62lx
+
+      # Build for BeagleBadge:
+      $ export UBOOT_CONFIG=am62lx_badge_defconfig
+      $ export TFA_BOARD=am62l3-badge # on ti-tfa-2.14.y
+      $ export TFA_BOARD=am62l-badge # on ti-master
 
    .. note::
 
@@ -461,11 +469,21 @@ Go :ref:`here <download-and-install-sdk>` to download and install the SDK.
    .. code-block:: console
 
       $ cd $UBOOT_DIR
-      $ make CROSS_COMPILE="$CROSS_COMPILE_64" am62lx_evm_defconfig
+      $ make CROSS_COMPILE="$CROSS_COMPILE_64" $UBOOT_CONFIG
       $ make CROSS_COMPILE="$CROSS_COMPILE_64" \
-         BL1=$TFA_DIR/build/k3/am62l/release/bl1.bin \
-         BL31=$TFA_DIR/build/k3/am62l/release/bl31.bin \
-         BINMAN_INDIRS=$TI_LINUX_FW_DIR
+         BL1=$TFA_DIR/build/k3low/$TFA_BOARD/release/bl1.bin \
+         BL31=$TFA_DIR/build/k3low/$TFA_BOARD/release/bl31.bin \
+         BINMAN_INDIRS=$TI_LINUX_FW_DIR \
+         TEE=$OPTEE_DIR/out/arm-plat-k3/core/tee-pager_v2.bin
+
+   .. note::
+
+      The :file:`am62lx_falcon.config` config fragment can be used to enable
+      falcon mode support.
+
+      .. code-block:: console
+
+         $ make CROSS_COMPILE="$CROSS_COMPILE_64" am62lx_evm_defconfig am62lx_falcon.config
 
 .. ifconfig:: CONFIG_part_variant not in ('AM64X', 'AM62X', 'AM62AX', 'AM62LX')
 

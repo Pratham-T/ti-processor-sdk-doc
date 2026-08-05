@@ -48,7 +48,7 @@ linux/Foundational_Components_Kernel
 linux/Foundational_Components_Kernel_Drivers
 linux/Foundational_Components/Kernel/Kernel_Drivers/ADC
 linux/Foundational_Components/Kernel/Kernel_Drivers/Audio
-linux/Foundational_Components/Kernel/Kernel_Drivers/Camera/CSI2RX
+linux/Foundational_Components/Kernel/Kernel_Drivers/Camera/CSI2RX_J784S4
 linux/Foundational_Components/Kernel/Kernel_Drivers/Crypto/SA2UL_OMAP
 linux/Foundational_Components/Kernel/Kernel_Drivers/Display/DSS7
 linux/Foundational_Components/Kernel/Kernel_Drivers/GPIO
@@ -66,7 +66,6 @@ linux/Foundational_Components/Kernel/Kernel_Drivers/Network/CPSW-CBS
 linux/Foundational_Components/Kernel/Kernel_Drivers/Network/CPSW-IET
 linux/Foundational_Components/Kernel/Kernel_Drivers/Network/CPSW-TSN-Tuning
 linux/Foundational_Components/Kernel/Kernel_Drivers/PCIe/PCIe_End_Point
-linux/Foundational_Components/Kernel/Kernel_Drivers/PCIe/PCIe_Backplane
 linux/Foundational_Components/Kernel/Kernel_Drivers/PCIe/PCIe_Root_Complex
 linux/Foundational_Components/Kernel/Kernel_Drivers/PMIC/pmic_tps6594
 linux/Foundational_Components_Power_Management
@@ -87,7 +86,6 @@ linux/Foundational_Components_Kernel_FAQs
 linux/Foundational_Components_Filesystem
 linux/Foundational_Components_Tools
 linux/Foundational_Components/Tools/Development_Tools
-linux/Foundational_Components/Tools/Flash_Tools
 linux/Foundational_Components/Tools/SysConfig_Tools
 linux/Foundational_Components/Tools/Code_Composer_Studio
 linux/Foundational_Components_IPC_J784S4
@@ -96,6 +94,7 @@ linux/Foundational_Components/Virtualization/Docker
 linux/Foundational_Components_OPTEE
 linux/Foundational_Components_ATF
 linux/Foundational_Components_Multimedia_wave5
+linux/Foundational_Components_Secure_Boot
 linux/Foundational_Components/Graphics/index
 linux/Foundational_Components/Graphics/Common/Display
 linux/Foundational_Components/Graphics/Common/GTK+_Graphics_Framework
@@ -132,7 +131,7 @@ linux/How_to_Guides/FAQ/Tda4_Latest_FAQs
 linux/How_to_Guides/FAQ/How_to_Integrate_Open_Source_Software
 linux/How_to_Guides/Host/How_to_Build_a_Ubuntu_Linux_host_under_VMware
 linux/How_to_Guides_Hardware_Setup_with_CCS
-linux/How_to_Guides/Hardware_Setup_with_CCS/AM69_SK_Hardware_Setup
+common/How_to_Guides/AM69_SK_Hardware_Setup
 linux/How_to_Guides/Target/How_To_Carve_Out_CMA
 linux/Documentation_Tarball
 

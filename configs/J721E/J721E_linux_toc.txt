@@ -37,6 +37,7 @@ linux/Foundational_Components/U-Boot/UG-NOR
 linux/Foundational_Components/U-Boot/UG-UART
 linux/Foundational_Components/U-Boot/UG-SATA
 linux/Foundational_Components/U-Boot/UG-UFS
+linux/Foundational_Components/U-Boot/UG-DDRSS-J7
 linux/Foundational_Components/U-Boot/UG-HyperBus
 linux/Foundational_Components/U-Boot/UG-RemoteProc
 linux/Foundational_Components/U-Boot/UG-AVS
@@ -49,8 +50,9 @@ linux/Foundational_Components_Kernel
 linux/Foundational_Components_Kernel_Drivers
 linux/Foundational_Components/Kernel/Kernel_Drivers/ADC
 linux/Foundational_Components/Kernel/Kernel_Drivers/Audio
-linux/Foundational_Components/Kernel/Kernel_Drivers/Camera/CSI2RX
+linux/Foundational_Components/Kernel/Kernel_Drivers/Camera/CSI2RX_J721E
 linux/Foundational_Components/Kernel/Kernel_Drivers/Crypto/SA2UL_OMAP
+linux/Foundational_Components/Kernel/Kernel_Drivers/DDR
 linux/Foundational_Components/Kernel/Kernel_Drivers/Display/DSS7
 linux/Foundational_Components/Kernel/Kernel_Drivers/DM-Timer
 linux/Foundational_Components/Kernel/Kernel_Drivers/GPIO
@@ -74,6 +76,7 @@ linux/Foundational_Components/Kernel/Kernel_Drivers/PCIe/PCIe_Root_Complex
 linux/Foundational_Components/Kernel/Kernel_Drivers/PMIC/pmic_tps6594
 linux/Foundational_Components_Power_Management
 linux/Foundational_Components/Power_Management/pm_dfs
+linux/Foundational_Components_Secure_Boot
 linux/Foundational_Components/Kernel/Kernel_Drivers/QSPI
 linux/Foundational_Components/Kernel/Kernel_Drivers/SERDES/SERDES
 linux/Foundational_Components/Kernel/Kernel_Drivers/SPI
@@ -89,10 +92,10 @@ linux/Foundational_Components_Kernel_LTP-DDT_Validation
 linux/Foundational_Components_Kernel_FAQs
 linux/Foundational_Components_Security
 linux/Foundational_Components/System_Security/Security_overview
+linux/Foundational_Components/System_Security/Post_Quantum_Cryptography
 linux/Foundational_Components_Filesystem
 linux/Foundational_Components_Tools
 linux/Foundational_Components/Tools/Development_Tools
-linux/Foundational_Components/Tools/Flash_Tools
 linux/Foundational_Components/Tools/SysConfig_Tools
 linux/Foundational_Components/Tools/Code_Composer_Studio
 linux/Foundational_Components_IPC_J721E
@@ -139,6 +142,6 @@ linux/How_to_Guides/FAQ/Tda4_Latest_FAQs
 linux/How_to_Guides/FAQ/How_to_Integrate_Open_Source_Software
 linux/How_to_Guides/Host/How_to_Build_a_Ubuntu_Linux_host_under_VMware
 linux/How_to_Guides_Hardware_Setup_with_CCS
-linux/How_to_Guides/Hardware_Setup_with_CCS/J721E_EVM_Hardware_Setup
+common/How_to_Guides/J721E_EVM_Hardware_Setup
 linux/How_to_Guides/Target/How_To_Carve_Out_CMA
 linux/Documentation_Tarball

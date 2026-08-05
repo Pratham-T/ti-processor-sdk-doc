@@ -36,12 +36,12 @@ from scripts import interpretvalues, sectinc, replacevars
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
+    'sphinx.ext.graphviz',
     'sphinx_rtd_theme',
-    'sphinx_tabs.tabs',
+    'sphinx_design',
     'sphinx_copybutton'
 ]
 
@@ -251,12 +251,11 @@ latex_elements = {
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
 
-
-# Example configuration for intersphinx: refer to the Python standard library.
-# intersphinx_mapping = {'https://docs.python.org/': None}
-
 # Suppress warnings about excluded documents because every device gets a different toc tree
 suppress_warnings = ['toc.excluded']
+
+# Render graphviz diagrams as SVG so that hyperlinks in diagrams are clickable
+graphviz_output_format = 'svg'
 
 # -- Tag file loader ------------------------------------------------------
 

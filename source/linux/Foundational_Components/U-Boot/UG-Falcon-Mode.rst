@@ -16,85 +16,46 @@ and ATF.
 
 * R5 SPL -> ATF -> OP-TEE -> Linux
 
-Falcon boot support is added by the ``ti-falcon`` yocto override which can be
-enabled before :ref:`building the SDK <building-the-sdk-with-yocto>` as follows:
+The following steps show how to build R5 SPL with falcon mode support:
 
-.. code-block:: console
+.. ifconfig:: CONFIG_part_variant in ('AM62AX')
 
-   $ echo 'DISTROOVERRIDES:append = ":ti-falcon"' >> conf/local.conf
-   $ # build the SDK
-   $ MACHINE=<machine> bitbake -k tisdk-default-image
+   * `Falcon Mode - U-Boot documentaiton <https://docs.u-boot.org/en/v2026.01/board/ti/am62ax_sk.html#falcon-mode>`__
 
-*************************************
-Changes made by *ti-falcon* override:
-*************************************
+.. ifconfig:: CONFIG_part_variant in ('AM62DX')
 
-ATF:
-====
+   * `Falcon Mode - U-Boot documentaiton <https://docs.u-boot.org/en/v2026.04/board/ti/am62dx_evm.html#falcon-mode>`__
 
-To meet the 2MiB alignment requirement for the Linux kernel's load address,
-the ``PRELOADED_BL33_BASE`` *(kernel address)* is modified to ``0x82000000``
-and ``K3_HW_CONFIG_BASE`` *(DTB address)* is modified from the K3 default to
-``0x88000000``.
+.. ifconfig:: CONFIG_part_variant in ('AM62PX')
 
-TI-SPL:
-=======
+   * `Falcon Mode - U-Boot documentaiton <https://docs.u-boot.org/en/v2026.01/board/ti/am62px_sk.html#falcon-mode>`__
 
-Falcon mode makes use of a cut down variant of the tispl binary called
-:file:`tifalcon.bin` with the Cortex-A SPL and its corresponding device-tree
-removed. This file is deployed to the boot directory inside the root filesystem
-so it can be picked by the R5 SPL at boot time.
+.. ifconfig:: CONFIG_part_variant in ('AM62X')
 
-R5 SPL:
-=======
+   * `Falcon Mode - U-Boot documentaiton <https://docs.u-boot.org/en/v2026.01/board/ti/am62x_sk.html#falcon-mode>`__
 
-The R5 SPL loads the kernel :file:`fitImage` and :file:`tifalcon.bin` file. An
-x509 certificate with TIFS keys verifies the :file:`fitImage` for falcon boot
-instead of making use of signature nodes and keys present in the DT. This allows
-for faster authentication since TIFS uses the security accelerator for
-authentication, which is much faster than doing the same on R5 core.
+.. important::
 
-This support is present alongside the standard R5 ``defconfig`` when ``ti-falcon``
-is enabled due to U-Boot's :file:`k3_r5_falcon.config` fragment. This updates
-the R5 memory map at U-Boot SPL stage to the following:
+   The following patch is required to enable R5 falcon mode in U-Boot for
+   ``12.0`` SDK release:
 
-.. code-block::
+   .. code-block:: diff
 
-   0x80000000 +===============================+ Start of DDR
-     512KiB   |   ATF reserved memory space   | CONFIG_K3_ATF_LOAD_ADDR
-   0x80080000 +-------------------------------+
-    31.5MiB   |            Unused             |
-   0x82000000 +-------------------------------+ PRELOADED_BL33_BASE in ATF
-              |                               | CONFIG_SYS_LOAD_ADDR
-      57MiB   |   Kernel + initramfs Image    | CONFIG_SPL_LOAD_FIT_ADDRESS
-              |                               |
-   0x85900000 +-------------------------------+
-              |                               |
-              |  R5 U-Boot SPL Stack + Heap   |
-      39MiB   |       (size defined by        |
-              | SPL_STACK_R_MALLOC_SIMPLE_LEN)|
-              |                               |
-   0x88000000 +-------------------------------+ CONFIG_SPL_STACK_R_ADDR
-              |                               | K3_HW_CONFIG_BASE in ATF
-      16MiB   |          Kernel DTB           | CONFIG_SPL_PAYLOAD_ARGS_ADDR
-              |                               |
-   0x89000000 +-------------------------------+
-     331MiB   | Device Manager (DM) Load Addr |
-   0x9db00000 +-------------------------------+
-      12MiB   |          DM Reserved          |
-   0x9e700000 +-------------------------------+
-       1MiB   |            Unused             |
-   0x9e800000 +-------------------------------+ BL32_BASE in ATF
-      24MiB   |             OPTEE             |
-   0xa0000000 +===============================+ End of DDR (512MiB)
+      diff --git a/arch/arm/mach-k3/common.c b/arch/arm/mach-k3/common.c
+      index b93516ff806..b5ced6e713b 100644
+      --- a/arch/arm/mach-k3/common.c
+      +++ b/arch/arm/mach-k3/common.c
+      @@ -54,7 +54,7 @@ struct ti_sci_handle *get_ti_sci_handle(void)
+       	return (struct ti_sci_handle *)ti_sci_get_handle_from_sysfw(dev);
+       }
 
-fitImage:
-=========
+      -#ifdef CONFIG_SPL_OS_BOOT
+      +#if IS_ENABLED(CONFIG_SPL_OS_BOOT) && IS_ENABLED(CONFIG_ARM64)
+       void *board_spl_fit_buffer_addr(ulong fit_size, int sectors, int bl_len)
+       {
+       	return (void *)CONFIG_SPL_LOAD_FIT_ADDRESS;
 
-The system produces the resulting :file:`fitImage` file in the boot directory
-of the root filesystem. This file has its constituent binaries pre-signed with
-x509 certificates. At boot time, TIFS authenticates this file, which allows for
-a lower boot time compared to authenticating on the R5 core.
+   * `Patch in ti-u-boot tree <https://git.ti.com/cgit/ti-u-boot/ti-u-boot/commit/?h=ti-u-boot-2026.01-next&id=ee3048ee0822c35312379b6e24b5c80e9a845110>`__
 
 *******************
 Extra Configuration
@@ -103,7 +64,7 @@ Extra Configuration
 OSPI boot:
 ==========
 
-.. ifconfig:: CONFIG_part_variant not in ('AM62AX')
+.. ifconfig:: CONFIG_part_variant not in ('AM62AX', 'AM62DX')
 
    For OSPI boot, the :file:`tiboot3.bin` file should be flashed to the same
    addresses in flash as regular boot flow whereas :file:`tifalcon.bin` and the
@@ -119,7 +80,7 @@ OSPI boot:
      => tftp ${loadaddr} tiboot3.bin
      => sf update $loadaddr 0x0 $filesize
 
-.. ifconfig:: CONFIG_part_variant in ('AM62AX')
+.. ifconfig:: CONFIG_part_variant in ('AM62AX', 'AM62DX')
 
    This section is not applicable for this platform.
 
@@ -144,42 +105,6 @@ offset.
 
 For more information check: :ref:`How to flash eMMC and boot with eMMC Boot
 <how-to-emmc-boot>`.
-
-.. _u-boot_falcon_mode_fitImage_creation:
-
-Custom fitImage creation:
-=========================
-
-The following steps show how to create a falcon compatible :file:`fitImage`:
-
-.. ifconfig:: CONFIG_part_variant in ('AM62AX')
-
-   * `fitImage Creation - U-Boot documentaiton <https://docs.u-boot.org/en/latest/board/ti/am62ax_sk.html#fitimage>`__
-
-.. ifconfig:: CONFIG_part_variant in ('AM62PX')
-
-   * `fitImage Creation - U-Boot documentaiton <https://docs.u-boot.org/en/latest/board/ti/am62px_sk.html#fitimage>`__
-
-.. ifconfig:: CONFIG_part_variant in ('AM62X')
-
-   * `fitImage Creation - U-Boot documentaiton <https://docs.u-boot.org/en/latest/board/ti/am62x_sk.html#fitimage>`__
-
-Non-Yocto Users:
-================
-
-The following steps show how to enable falcon mode from the R5 SPL standalone:
-
-.. ifconfig:: CONFIG_part_variant in ('AM62AX')
-
-   * `Falcon Mode - U-Boot documentaiton <https://docs.u-boot.org/en/latest/board/ti/am62ax_sk.html#falcon-mode>`__
-
-.. ifconfig:: CONFIG_part_variant in ('AM62PX')
-
-   * `Falcon Mode - U-Boot documentaiton <https://docs.u-boot.org/en/latest/board/ti/am62px_sk.html#falcon-mode>`__
-
-.. ifconfig:: CONFIG_part_variant in ('AM62X')
-
-   * `Falcon Mode - U-Boot documentaiton <https://docs.u-boot.org/en/latest/board/ti/am62x_sk.html#falcon-mode>`__
 
 **********************
 Boot time comparisons:

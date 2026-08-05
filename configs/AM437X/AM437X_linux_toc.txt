@@ -18,7 +18,7 @@ devices/AM437X/linux/Release_Specific
 devices/AM437X/linux/Release_Specific_Release_Notes
 devices/AM437X/linux/Release_Specific_Migration_Guide
 devices/AM437X/linux/Release_Specific_Performance_Guide
-linux/Release_Specific_Yocto_layer_Configuration
+devices/AM437X/linux/Release_Specific_Yocto_layer_Configuration
 linux/Release_Specific_Supported_Platforms_and_Versions
 linux/Foundational_Components
 linux/Foundational_Components_U-Boot
@@ -90,7 +90,6 @@ linux/Foundational_Components/PRU-ICSS/Linux_Drivers/RemoteProc
 linux/Foundational_Components/PRU-ICSS/Linux_Drivers/RPMsg
 linux/Foundational_Components/PRU-ICSS/RPMsg_Quick_Start_Guide
 linux/Foundational_Components/PRU-ICSS/Linux_Drivers/PRU-ICSS_Ethernet
-linux/Foundational_Components/PRU-ICSS/Linux_Drivers/pru-sw-uart
 linux/Foundational_Components/PRU-ICSS-Hardware
 linux/Foundational_Components/PRU-ICSS/PRU-EVMs
 linux/Foundational_Components/PRU-ICSS-Training
@@ -113,11 +112,9 @@ linux/Foundational_Components/Graphics/SGX/Overview
 linux/Foundational_Components/Graphics/SGX/SGX_Debug_Info
 linux/Foundational_Components/Graphics/SGX/Build_Guide
 
-linux/Examples_and_Demos
-linux/Examples_and_Demos_Application_Demos
-linux/Examples_and_Demos/Application_Demos/QT_Thermostat_HMI_Demo
-linux/Examples_and_Demos/Application_Demos/Additional_Application_Demo_Links
-linux/Examples_and_Demos_Sub-system_Demos
+linux/Demo_User_Guides/index_Demos
+linux/Demo_User_Guides/TI_LVGL_Demo_User_Guide
+
 linux/How_to_Guides
 linux/How_to_Guides_Host
 linux/How_to_Guides/Host/Moving_Files_to_the_Target_System
@@ -130,7 +127,7 @@ linux/How_to_Guides/Target/Update_U-Boot_Environment_Variables_stored_in_SPI_Fla
 linux/How_to_Guides/Target/How_to_Change_dtb_File
 linux/How_to_Guides/Target/How_to_fix_y2k38
 linux/How_to_Guides_Hardware_Setup_with_CCS
-linux/How_to_Guides/Hardware_Setup_with_CCS/EVMK2H_Hardware_Setup
+common/How_to_Guides/EVMK2H_Hardware_Setup
 linux/How_to_Guides_Board_Port
 linux/How_to_Guides/Board_Port/U-Boot
 common/PRU-ICSS/Getting_Started_with_PSSP

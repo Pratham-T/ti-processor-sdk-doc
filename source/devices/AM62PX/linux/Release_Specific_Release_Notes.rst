@@ -9,22 +9,33 @@ Overview
 
 The **Processor Software Development Kit (Processor SDK)** is a unified software platform for TI embedded processors
 providing easy setup and fast out-of-the-box access to benchmarks and demos. All releases of Processor SDK are
-consistent across TI’s broad portfolio, allowing developers to seamlessly reuse and develop software across devices.
-Developing a scalable platform solutions has never been easier than with the Processor SDK and TI’s embedded processor
+consistent across TI's broad portfolio, allowing developers to seamlessly reuse and develop software across devices.
+Developing a scalable platform solutions has never been easier than with the Processor SDK and TI's embedded processor
 solutions.
 
 To simplify the user experience, Processor SDK Linux AM62Px installer provides everything needed as discussed below
-to create the embedded system from “scratch” :
+to create the embedded system from "scratch" :
 
 -  Platform/board-support software and configuration files for Linux
 -  U-Boot and Kernel sources and configuration files
 -  An ARM cross-compiling toolchain as well as other host binaries and components
 -  A Yocto/OE compliant filesystem and sources for example applications
 -  A variety of scripts and Makefiles to automate certain tasks
--  Other components needed to build an embedded system that don’t fit neatly into one of the above buckets
+-  Other components needed to build an embedded system that don't fit neatly into one of the above buckets
 -  Reference Examples, benchmarks
 
 This release supports High Security - Field Securable (HS-FS) devices.
+
+Release versioning scheme
+=========================
+
+Processor SDK releases follow the 5-duplet versioning scheme ``YY.RR.EE.CC.SS``, where:
+
+- ``YY`` - Yearly baseline. Increments with each new LTS baseline.
+- ``RR`` - Release index within the yearly baseline. Each yearly baseline includes many stable releases.
+- ``EE`` - Extended release index within a stable baseline.
+- ``CC`` - Release Candidate for common foundational BSP components such as Linux, U-Boot, ATF, OPTEE, Firmware and OE manifest including meta-ti, meta-arago.
+- ``SS`` - SDK Release identifier for Distro layers (Yocto meta-tisdk, Armbian, Buildroot) with OOB Demos and Installers.
 
 Licensing
 =========
@@ -34,23 +45,29 @@ status for all packages included in this release. The manifest can be
 found on the SDK download page or in the installed directory as indicated below.
 
 -  Linux Manifest:  :file:`<PSDK_PATH>/manifest/software_manifest.htm`
--  Debian Manifest: `TI debian software manifest 11.01.16.13
-   <https://dr-download.ti.com/software-development/software-development-kit-sdk/MD-9ti3Ig9hNi/11.01.16.13/software_manifest_debian_am62pxx-evm_am62pxx-evm.htm>`__
+-  Debian Manifest: `AM62Px 12.00.00.07.04
+   <https://dr-download.ti.com/software-development/software-development-kit-sdk/MD-9ti3Ig9hNi/12.00.00.07.04/software_manifest_debian_sk-am62p_sk-am62p.htm>`__
 
+Software Bill of Materials (SBOM)
+=================================
 
-Release 11.01.16.13
-===================
+|__SDK_FULL_NAME__| releases include Software Bill of Materials (SBOM) files in SPDX 3.0
+format by default. SBOMs for all released artifacts are bundled into a single
+archive and can be found on the |__SDK_DOWNLOAD_URL__|.
+For more refer :ref:`Working with SBOM <how-to-work-with-sbom>`.
 
-Released on Oct 2025
+Release 12.01.00.05.03
+======================
+
+Released on July 2026
 
 What's new
 ----------
 
 **Processor SDK Linux AM62PX Release has following new features:**
 
-  - Third 2025 LTS Reference Release Including RT combined branch model
-  - Supported AM62Px SR 1.2 with eMMC HS400 mode
-  - Important Bug Fixes on top of Processor SDK 11.01.05.03 Release.
+  - Second 2026 LTS Reference Release Including RT combined branch model
+  - Important Bug Fixes on top of Processor SDK 12.00.00.07 Release
   - Review Issue Tracker Section for the new fixes.
 
 **Key Release References:**
@@ -61,21 +78,22 @@ What's new
   - TISCI: A53 hosts default priv_id value updated to 1 from 4 (to match all other SOCs)
   - How standby power mode works - :ref:`CPUIdle Documentation <cpuidle-guide>`
   - Out-of-Box TI Apps Launcher Application with Qt6 Framework - :ref:`TI Apps Launcher <TI-Apps-Launcher-User-Guide-label>`
+  - Support for multiple GUI frameworks (Flutter and Slint) - :ref:`GUI Frameworks <GUI_Frameworks_User_Guide>`
   - Snagfactory Support - :ref:`Snagfactory Tool <Flash-via-Fastboot>`
   - Support for M2 CC33xx cards on Debian - `How to Enable M.2-CC33x1 in Linux <https://software-dl.ti.com/processor-sdk-linux/esd/AM62PX/10_01_10_04_Debian/exports/docs/linux/How_to_Guides/Target/How_To_Enable_M2CC3301_in_linux.html>`__
 
-
 **Component version:**
 
-  - Kernel 6.12.43
-  - U-Boot 2025.01
-  - Toolchain GCC 13.4
-  - ATF 2.13+
-  - OPTEE 4.7.0+
-  - Graphics DDK 24.2
-  - TIFS Firmware / SYSFW `v11.01.05d <https://software-dl.ti.com/tisci/esd/11_01_05/release_notes/release_notes.html>`__ (Click on the link for more information)
-  - DM Firmware 11.01.01.04
-  - Yocto scarthgap 5.0
+  - Kernel 6.18.38
+  - U-Boot 2026.01
+  - Toolchain GCC 15.2
+  - ATF 2.15
+  - OPTEE 4.10.0+
+  - TIFS Firmware `v12.01.02 <https://software-dl.ti.com/tisci/esd/12_01_02/release_notes/release_notes.html>`__ (Click on the link for more information)
+  - Yocto Wrynose/6.0
+  - Security: Post Quantum Cryptography using Module Lattice (ML) Key Encapsulation Mechanism (KEM) or ML-KEM, ML Digital Signature Algorithm (DSA) or ML-DSA, and Stateless Hash-Based (SLH) DSA or SLH-DSA - :ref:`Post Quantum Cryptography <post_quantum_cryptography>`
+  - Graphics DDK 26.1
+  - DM Firmware 12.01.00.18
 
 .. _release-specific-build-information:
 
@@ -94,36 +112,36 @@ Arago (Yocto/OE)
      - Tag Info
      - Config Info
    * - U-Boot
-     - `ti-u-boot-2025.01 <https://git.ti.com/cgit/ti-u-boot/ti-u-boot/log/?h=ti-u-boot-2025.01>`__
-     - `11.01.16 <https://git.ti.com/cgit/ti-u-boot/ti-u-boot/tag/?h=11.01.16>`__
+     - `ti-u-boot-2026.01 <https://git.ti.com/cgit/ti-u-boot/ti-u-boot/log/?h=ti-u-boot-2026.01>`__
+     - `12.01.00.05 <https://git.ti.com/cgit/ti-u-boot/ti-u-boot/tag/?h=12.01.00.05>`__
      - :ref:`Build Config <Build-U-Boot-label>`
    * - TF-A
      - `master <https://git.trustedfirmware.org/plugins/gitiles/TF-A/trusted-firmware-a.git/+/refs/heads/master>`__
-     - `v2.13+ <https://git.yoctoproject.org/meta-ti/tree/meta-ti-bsp/recipes-bsp/trusted-firmware-a/trusted-firmware-a-ti.inc?h=11.01.16#n3>`__
+     - `v2.15 <https://git.yoctoproject.org/meta-ti/tree/meta-ti-bsp/recipes-bsp/trusted-firmware-a/trusted-firmware-a-ti.inc?h=12.01.00.05#n5>`__
      -
    * - OPTEE
      - `master <https://github.com/OP-TEE/optee_os/tree/master>`__
-     - `4.7.0+ <https://git.yoctoproject.org/meta-ti/tree/meta-ti-bsp/recipes-security/optee/optee-os-ti-version.inc?h=11.01.16#n1>`__
+     - `4.10.0+ <https://git.yoctoproject.org/meta-ti/tree/meta-ti-bsp/recipes-security/optee/optee-os-ti-version.inc?h=12.01.00.05#n1>`__
      - |__OPTEE_PLATFORM_FLAVOR__|
    * - Linux Firmware
      - `ti-linux-firmware <https://git.ti.com/cgit/processor-firmware/ti-linux-firmware/log/?h=ti-linux-firmware>`__
-     - `11.01.16 <https://git.ti.com/cgit/processor-firmware/ti-linux-firmware/tag/?h=11.01.16>`__
+     - `12.01.00.05 <https://git.ti.com/cgit/processor-firmware/ti-linux-firmware/tag/?h=12.01.00.05>`__
      -
    * - Linux Kernel
-     - `ti-linux-6.12.y <https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel/log/?h=ti-linux-6.12.y>`__
-     - `11.01.16 <https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel/tag/?h=11.01.16>`__
-     - `non-RT <https://git.yoctoproject.org/meta-ti/tree/meta-ti-bsp/recipes-kernel/linux/linux-ti-staging-6.12/k3/defconfig?h=11.01.16>`__ , `RT <https://git.yoctoproject.org/meta-ti/tree/meta-ti-bsp/recipes-kernel/linux/linux-ti-staging-rt-6.12/k3/defconfig?h=11.01.16>`__
+     - `ti-linux-6.18.y <https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel/log/?h=ti-linux-6.18.y>`__
+     - `12.01.00.05 <https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel/tag/?h=12.01.00.05>`__
+     - `non-RT <https://git.yoctoproject.org/meta-ti/tree/meta-ti-bsp/recipes-kernel/linux/linux-ti-staging-6.18/k3/defconfig?h=12.01.00.05>`__ , `RT <https://git.yoctoproject.org/meta-ti/tree/meta-ti-bsp/recipes-kernel/linux/linux-ti-staging-rt-6.18/k3/defconfig?h=12.01.00.05>`__
    * - meta-ti
-     - `scarthgap <https://git.yoctoproject.org/meta-ti/log/?h=scarthgap>`__
-     - `11.01.16 <https://git.yoctoproject.org/meta-ti/tag/?h=11.01.16>`__
+     - `wrynose <https://git.yoctoproject.org/meta-ti/log/?h=wrynose>`__
+     - `12.01.00.05 <https://git.yoctoproject.org/meta-ti/tag/?h=12.01.00.05>`__
      - |__SDK_BUILD_MACHINE__|
    * - meta-arago
-     - `scarthgap <https://git.yoctoproject.org/meta-arago/log/?h=scarthgap>`__
-     - `11.01.16 <https://git.yoctoproject.org/meta-arago/tag/?h=11.01.16>`__
+     - `wrynose <https://git.yoctoproject.org/meta-arago/log/?h=wrynose>`__
+     - `12.01.00.05 <https://git.yoctoproject.org/meta-arago/tag/?h=12.01.00.05>`__
      -
    * - meta-tisdk
-     - `scarthgap <https://git.ti.com/cgit/ti-sdk-linux/meta-tisdk/log/?h=scarthgap>`__
-     - `11.01.16.13 <https://git.ti.com/cgit/ti-sdk-linux/meta-tisdk/tag/?h=11.01.16.13>`__
+     - `wrynose <https://git.ti.com/cgit/ti-sdk-linux/meta-tisdk/log/?h=wrynose>`__
+     - `12.01.00.05.03 <https://git.ti.com/cgit/ti-sdk-linux/meta-tisdk/tag/?h=12.01.00.05.03>`__
      -
 
 Debian (Armbian)
@@ -138,29 +156,30 @@ Debian (Armbian)
      - Tag Info
      - Config Info
    * - U-Boot
-     - `ti-u-boot-2025.01 <https://github.com/TexasInstruments/ti-u-boot/tree/ti-u-boot-2025.01>`__
-     - `11.01.16 <https://github.com/TexasInstruments/ti-u-boot/releases/tag/11.01.16>`__
-     - `Build <https://github.com/TexasInstruments/armbian-build/blob/53f037d7be54ea1f203aa46aaf61b03eb9a58585/config/sources/families/k3.conf#L103>`__
-   * - ATF
+     - `ti-u-boot-2026.01 <https://github.com/TexasInstruments/ti-u-boot/tree/ti-u-boot-2026.01>`__
+     - `12.01.00.05 <https://github.com/TexasInstruments/ti-u-boot/releases/tag/12.01.00.05>`__
+     - `Build <https://github.com/TexasInstruments/armbian-build/blob/12.01.00.05.03/config/sources/families/include/k3_common.inc#L73>`__
+   * - TF-A
      - `master <https://github.com/ARM-Software/arm-trusted-firmware/tree/master>`__
-     - `v2.13+ <https://github.com/ARM-software/arm-trusted-firmware/commit/e0c4d3903b382bf34f552af53e6d955fae5283ab>`__
-     - `Build <https://github.com/TexasInstruments/armbian-build/blob/53f037d7be54ea1f203aa46aaf61b03eb9a58585/config/sources/families/k3.conf#L101>`__
+     - `v2.15 <https://github.com/ARM-software/arm-trusted-firmware/commit/da738d5eae93af342fdc4995dd3c05acb4c9d757>`__
+     - `Build <https://github.com/TexasInstruments/armbian-build/blob/12.01.00.05.03/config/sources/families/include/k3_common.inc#L71>`__
    * - OPTEE
      - `master <https://github.com/OP-TEE/optee_os/tree/master>`__
-     - `4.7.0+ <https://github.com/OP-TEE/optee_os/commit/a9690ae39995af36a31b7a4f446f27ea0787e3a4>`__
-     - `Build <https://github.com/TexasInstruments/armbian-build/blob/53f037d7be54ea1f203aa46aaf61b03eb9a58585/config/sources/families/k3.conf#L130>`__
+     - `4.10.0 <https://github.com/OP-TEE/optee_os/commit/753afbbee1682f5d16fd30e87b31058a4fd4f4b8>`__
+     - `Build <https://github.com/TexasInstruments/armbian-build/blob/12.01.00.05.03/config/sources/families/include/k3_common.inc#L99>`__
    * - Linux Firmware
      - `ti-linux-firmware <https://github.com/TexasInstruments/ti-linux-firmware/tree/ti-linux-firmware>`__
-     - `11.01.16 <https://github.com/TexasInstruments/ti-linux-firmware/releases/tag/11.01.16>`__
-     - `Git Clone <https://github.com/TexasInstruments/armbian-build/blob/53f037d7be54ea1f203aa46aaf61b03eb9a58585/config/sources/families/k3.conf#L116>`__
+     - `12.01.00.05 <https://github.com/TexasInstruments/ti-linux-firmware/releases/tag/12.01.00.05>`__
+     - `Git Clone <https://github.com/TexasInstruments/armbian-build/blob/12.01.00.05.03/config/sources/families/include/k3_common.inc#L86>`__
    * - Linux Kernel
-     - `ti-linux-6.12.y <https://github.com/TexasInstruments/ti-linux-kernel/tree/ti-linux-6.12.y>`__
-     - `11.01.16 <https://github.com/TexasInstruments/ti-linux-kernel/releases/tag/11.01.16>`__
-     - `non-RT <https://github.com/TexasInstruments/armbian-build/blob/2025.10-release/config/kernel/linux-k3-current.config>`__, `RT <https://github.com/TexasInstruments/armbian-build/blob/2025.10-release/config/kernel/linux-k3-current-rt.config>`__
+     - `ti-linux-6.18.y <https://github.com/TexasInstruments/ti-linux-kernel/tree/ti-linux-6.18.y>`__
+     - `12.01.00.05 <https://github.com/TexasInstruments/ti-linux-kernel/releases/tag/12.01.00.05>`__
+     - `non-RT <https://github.com/TexasInstruments/armbian-build/blob/12.01.00.05.03/config/kernel/linux-k3-vendor.config>`__, `RT <https://github.com/TexasInstruments/armbian-build/blob/12.01.00.05.03/config/kernel/linux-k3-vendor-rt.config>`__
    * - Armbian Build
-     - `2025.10-release <https://github.com/TexasInstruments/armbian-build/tree/2025.10-release>`__
-     - `11.01.16.13 <https://github.com/TexasInstruments/armbian-build/releases/tag/11.01.16.13>`__
-     - `Build <https://github.com/TexasInstruments/armbian-build/blob/2025.10-release/config/sources/families/k3.conf>`__, `Board <https://github.com/TexasInstruments/armbian-build/blob/2025.10-release/config/boards/am62pxx-evm.conf>`__
+     - `2026.07-release <https://github.com/TexasInstruments/armbian-build/tree/2026.07-release>`__
+     - `12.01.00.05.03 <https://github.com/TexasInstruments/armbian-build/releases/tag/12.01.00.05.03>`__
+     - | Build: `k3_common.inc <https://github.com/TexasInstruments/armbian-build/blob/12.01.00.05.03/config/sources/families/include/k3_common.inc>`__ + `k3.conf <https://github.com/TexasInstruments/armbian-build/blob/12.01.00.05.03/config/sources/families/k3.conf>`__
+       | Board: `SK-AM62P <https://github.com/TexasInstruments/armbian-build/blob/12.01.00.05.03/config/boards/sk-am62p.conf>`__
 
 
 Issues Tracker
@@ -183,20 +202,27 @@ Errata Resolved
    "`EXT_EP-12114 <https://sir.ext.ti.com/jira/browse/EXT_EP-12114>`_","MMCSD: HS200 and SDR104 Command Timeout Window Too Small"
    "`EXT_EP-12294 <https://sir.ext.ti.com/jira/browse/EXT_EP-12294>`_","MMCHS: eMMC HS400 tDCD timing marginal to JEDEC spec"
 
+Errata Open
+-----------
+.. csv-table::
+   :header: "Record ID", "Title"
+   :widths: 15, 70
+
+   "`EXT_EP-13304 <https://sir.ext.ti.com/jira/browse/EXT_EP-13304>`_","U-Boot: MMCSD HS200 Write Failures"
+
 Issues Resolved
 ---------------
 .. csv-table::
    :header: "Record ID", "Title"
    :widths: 15, 70
 
-   "`EXT_SITMPUSW-166 <https://sir.ext.ti.com/jira/browse/EXT_SITMPUSW-166>`_","ti-apps-launcher: Incomplete Demo Build steps"
-   "`EXT_SITMPUSW-165 <https://sir.ext.ti.com/jira/browse/EXT_SITMPUSW-165>`_","inapplicable wl18xx message in Linux boot log"
-   "`EXT_SITMPUSW-143 <https://sir.ext.ti.com/jira/browse/EXT_SITMPUSW-143>`_","Yocto Documentation: AM6x: SDK: Build Instruction missing steps for building K3R5 baremetal toolchain"
-   "`EXT_EP-12816 <https://sir.ext.ti.com/jira/browse/EXT_EP-12816>`_","SDK Docs: Broken URL in How To Guides > EVM Setup"
-   "`EXT_EP-12782 <https://sir.ext.ti.com/jira/browse/EXT_EP-12782>`_","SDK Doc: toolchain information is out of date"
-   "`EXT_SITMPUSW-146 <https://sir.ext.ti.com/jira/browse/EXT_SITMPUSW-146>`_","Yocto: meta-ti*: kernel source has uncommited changes"
-   "`EXT_EP-12824 <https://sir.ext.ti.com/jira/browse/EXT_EP-12824>`_","AM62P SR1.1 CPUFreq shows 800MHz instead of 1.4GHz"
-   "`EXT_EP-12833 <https://sir.ext.ti.com/jira/browse/EXT_EP-12833>`_","AM62P PG1.1 CPU Freq show only 200-800MHz."
+   "`EXT_EP-13152 <https://sir.ext.ti.com/jira/browse/EXT_EP-13152>`_","AM62A/AM62P: Gstreamer V4L2allocator CMA leak."
+   "`EXT_EP-13314 <https://sir.ext.ti.com/jira/browse/EXT_EP-13314>`_","AM62Lx Linux SDK documentation on CPSW XDP points to PRU-ICSSG XDP"
+   "`EXT_EP-13131 <https://sir.ext.ti.com/jira/browse/EXT_EP-13131>`_","MMCSD: PHY DLL frequency is setting incorrectly for any clock < 200MHz"
+   "`EXT_EP-13316 <https://sir.ext.ti.com/jira/browse/EXT_EP-13316>`_","Board fails to resume after multiple iterations of MCU Only LPM"
+   "`EXT_EP-13321 <https://sir.ext.ti.com/jira/browse/EXT_EP-13321>`_","gstreamer 1.26.9: v4l2src format negotiation fails with capsfilter constraints"
+   "`EXT_EP-13303 <https://sir.ext.ti.com/jira/browse/EXT_EP-13303>`_","Kernel: MMCSD HS200 Write Failures"
+   "`EXT_EP-13144 <https://sir.ext.ti.com/jira/browse/EXT_EP-13144>`_","Job_ready false reporting ready state too frequently in Wave5 driver"
 
 Issues Open
 -----------
@@ -204,10 +230,5 @@ Issues Open
    :header: "Record ID", "Title"
    :widths: 15, 70
 
-   "`EXT_EP-12825 <https://sir.ext.ti.com/jira/browse/EXT_EP-12825>`_","AM62P DFU log:dwc3-am62 usb@f900000: unable to get ti,syscon-phy-pll-refclk regmap"
-   "`EXT_EP-12792 <https://sir.ext.ti.com/jira/browse/EXT_EP-12792>`_","CSI-2 Rx driver shall support frame width that is not 16-byte-aligned"
-   "`EXT_EP-12747 <https://sir.ext.ti.com/jira/browse/EXT_EP-12747>`_","Codec: Wave5: Improve Decoder Performance and Fix SError Crash on Fluster test"
-   "`EXT_EP-12969 <https://sir.ext.ti.com/jira/browse/EXT_EP-12969>`_","am62p: u-boot abort with 2GB DDR"
-   "`EXT_EP-12970 <https://sir.ext.ti.com/jira/browse/EXT_EP-12970>`_","AM6x - Sitara Socs MCASP and BCDMA issue."
-   "`EXT_EP-12972 <https://sir.ext.ti.com/jira/browse/EXT_EP-12972>`_","RPMsg zerocopy example: CMA allocation is broken"
+   "`EXT_EP-13320 <https://sir.ext.ti.com/jira/browse/EXT_EP-13320>`_","PowerVR Vulkan driver crash using MPV"
 

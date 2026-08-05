@@ -54,8 +54,10 @@ linux/Foundational_Components_Kernel
 linux/Foundational_Components_Kernel_Drivers
 #linux/Foundational_Components/Kernel/Kernel_Drivers/ADC
 linux/Foundational_Components/Kernel/Kernel_Drivers/Audio
-linux/Foundational_Components/Kernel/Kernel_Drivers/Camera/CSI2RX
+linux/Foundational_Components/Kernel/Kernel_Drivers/Camera/CSI2RX_AM62PX
 linux/Foundational_Components/Kernel/Kernel_Drivers/Crypto/SA2UL_OMAP
+linux/Foundational_Components/Kernel/Kernel_Drivers/DDR
+linux/Foundational_Components/Kernel/Kernel_Drivers/ECAP
 linux/Foundational_Components/Kernel/Kernel_Drivers/Display/DSS7
 linux/Foundational_Components/Kernel/Kernel_Drivers/DM-Timer
 linux/Foundational_Components/Kernel/Kernel_Drivers/EQEP
@@ -97,10 +99,15 @@ linux/Foundational_Components/Power_Management/pm_low_power_modes
 linux/Foundational_Components/Power_Management/pm_wakeup_sources
 linux/Foundational_Components/Power_Management/pm_sw_arch
 linux/Foundational_Components/Power_Management/pm_debug
+linux/Foundational_Components/Power_Management/pm_upstream
 
 linux/Foundational_Components/System_Security/Security_overview
 linux/Foundational_Components/System_Security/SELinux
 linux/Foundational_Components/System_Security/Auth_boot
+linux/Foundational_Components/System_Security/Memory_Firewalls
+linux/Foundational_Components_Secure_Boot
+linux/Foundational_Components/System_Security/Filesystem_Encryption
+linux/Foundational_Components/System_Security/Post_Quantum_Cryptography
 
 linux/Foundational_Components_Kernel_Users_Guide
 linux/Foundational_Components_Kernel_LTP-DDT_Validation
@@ -161,6 +168,7 @@ linux/How_to_Guides/Target/How_to_test_MCAN_on_AM62x
 linux/How_to_Guides/Target/How_to_enable_DT_overlays_in_linux
 linux/How_to_Guides/Target/How_to_playback_audio_over_HDMI
 linux/How_to_Guides/Target/How_to_enable_display_sharing_between_remotecore_and_Linux
+linux/How_to_Guides/Target/How_to_enable_SSC_for_DSS
 linux/How_to_Guides/Target/How_to_boot_quickly
 linux/How_to_Guides/Target/How_to_enable_Microtips_LVDS_Panel
 linux/How_to_Guides/Target/How_To_Enable_M2CC3301_in_linux
@@ -169,8 +177,9 @@ linux/How_to_Guides/Target/Runtime_debug_unlock_on_secure_device
 linux/How_to_Guides/Target/How_to_Tune_Real_Time_Linux
 linux/How_to_Guides/FAQ/How_to_Check_Device_Tree_Info
 linux/How_to_Guides/FAQ/How_to_Integrate_Open_Source_Software
+linux/How_to_Guides/FAQ/How_to_work_with_SBOM
 linux/How_to_Guides_Hardware_Setup_with_CCS
-linux/How_to_Guides/Hardware_Setup_with_CCS/AM62Px_EVM_Hardware_Setup
+common/How_to_Guides/AM62Px_EVM_Hardware_Setup
 linux/How_to_Guides/Target/How_To_Carve_Out_CMA
 
 linux/Demo_User_Guides/index_Demos
@@ -178,5 +187,6 @@ linux/Demo_User_Guides/TI_Apps_Launcher_User_Guide
 linux/Demo_User_Guides/Seva_Store
 linux/Demo_User_Guides/Display_Cluster_User_Guide
 linux/Demo_User_Guides/Chromium_Browser
+linux/Demo_User_Guides/GUI_Frameworks_User_Guide
 
 linux/Documentation_Tarball

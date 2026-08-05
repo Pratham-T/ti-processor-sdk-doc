@@ -11,6 +11,12 @@ requires coordination between multiple software and hardware frameworks.
 Power Management techniques can broadly be classified into two categories:
 Dynamic Power Management and Static Power Management.
 
+.. note::
+
+   With ti-u-boot-2026.01, LPM works only if ti-linux-firmware is 12.0 or
+   newer. On older firmware images and new U-Boot, LPM fails and the device
+   requires a reboot.
+
 .. rubric:: Dynamic Power Management
 
 Dynamic Power Management techniques reduce the active power
@@ -25,7 +31,7 @@ The dynamic power management features enabled on |__PART_FAMILY_DEVICE_NAMES__| 
    #. DVFS
    #. CPUIdle
 
-.. ifconfig:: CONFIG_part_variant in ('AM62X', 'AM62AX', 'AM62PX')
+.. ifconfig:: CONFIG_part_variant in ('AM62X', 'AM62AX', 'AM62PX', 'AM62DX')
 
    #. Dynamic Frequency Scaling
    #. CPUIdle
@@ -50,18 +56,20 @@ duration. This is accomplished by leveraging the low power modes supported
 by the SoC and the `System Sleep States <https://docs.kernel.org/admin-guide/pm/sleep-states.html>`__
 supported by the Linux kernel.
 
-.. ifconfig:: CONFIG_part_variant in ('AM62X', 'AM62AX', 'AM62PX')
+.. ifconfig:: CONFIG_part_variant in ('AM62X', 'AM62AX', 'AM62PX', 'AM62DX')
 
    The static power management features on |__PART_FAMILY_DEVICE_NAMES__| are:
 
    #. Partial I/O
    #. I/O Only Plus DDR
-   #. Deep Sleep
+   #. DeepSleep
    #. MCU Only Mode
 
 .. ifconfig:: CONFIG_part_variant in ('AM62LX')
 
    The static power management features on |__PART_FAMILY_DEVICE_NAMES__| are:
 
-   #. RTC Only Plus DDR
-   #. Deep Sleep
+   #. RTC Only
+   #. RTC + I/O + DDR
+   #. DeepSleep
+   #. DSS plus DeepSleep

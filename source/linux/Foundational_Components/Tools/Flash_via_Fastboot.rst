@@ -29,7 +29,7 @@ Installing Snagfactory
 
 .. note::
 
-   At the time of 11.1 release, the corresponding Snagfactory version was v2.3.
+   At the time of 11.2 release, the corresponding Snagfactory version was v2.5.
 
 .. ifconfig:: CONFIG_part_variant in ('AM62DX')
 
@@ -56,19 +56,19 @@ in :file:`Rules.make` file present in the top level of Linux SDK Installer.
 
       UBOOT_MACHINE_R5=am62x_evm_r5_defconfig am62x_r5_usbdfu.config
 
-      UBOOT_MACHINE_A53=am62x_evm_r5_defconfig am62x_a53_usbdfu.config am6x_a53_snagfactory.config
+      UBOOT_MACHINE=am62x_evm_a53_defconfig am62x_a53_usbdfu.config am6x_a53_snagfactory.config
 
       # For AM62X LP
 
       UBOOT_MACHINE_R5=am62x_lpsk_r5_defconfig am62x_r5_usbdfu.config
 
-      UBOOT_MACHINE_A53=am62x_lpsk_a53_defconfig am62x_a53_usbdfu.config am6x_a53_snagfactory.config
+      UBOOT_MACHINE=am62x_lpsk_a53_defconfig am62x_a53_usbdfu.config am6x_a53_snagfactory.config
 
       # For AM62X SIP
 
       UBOOT_MACHINE_R5=am62xsip_evm_r5_defconfig am62x_r5_usbdfu.config
 
-      UBOOT_MACHINE_A53=am62xsip_evm_a53_defconfig am62x_a53_usbdfu.config am6x_a53_snagfactory.config
+      UBOOT_MACHINE=am62xsip_evm_a53_defconfig am62x_a53_usbdfu.config am6x_a53_snagfactory.config
 
 .. ifconfig:: CONFIG_part_variant in ('AM64X')
 
@@ -76,7 +76,7 @@ in :file:`Rules.make` file present in the top level of Linux SDK Installer.
 
       UBOOT_MACHINE_R5=am64x_evm_r5_defconfig
 
-      UBOOT_MACHINE_A53=am64x_evm_a53_defconfig am6x_a53_snagfactory.config
+      UBOOT_MACHINE=am64x_evm_a53_defconfig am6x_a53_snagfactory.config
 
 .. ifconfig:: CONFIG_part_variant in ('AM62AX')
 
@@ -84,7 +84,7 @@ in :file:`Rules.make` file present in the top level of Linux SDK Installer.
 
       UBOOT_MACHINE_R5=am62ax_evm_r5_defconfig am62x_r5_usbdfu.config
 
-      UBOOT_MACHINE_A53=am62ax_evm_a53_defconfig am62x_a53_usbdfu.config am6x_a53_snagfactory.config
+      UBOOT_MACHINE=am62ax_evm_a53_defconfig am62x_a53_usbdfu.config am6x_a53_snagfactory.config
 
 .. ifconfig:: CONFIG_part_variant in ('AM62PX')
 
@@ -92,7 +92,7 @@ in :file:`Rules.make` file present in the top level of Linux SDK Installer.
 
       UBOOT_MACHINE_R5=am62px_evm_r5_defconfig am62x_r5_usbdfu.config
 
-      BOOT_MACHINE_A53=am62px_evm_a53_defconfig am62x_a53_usbdfu.config am6x_a53_snagfactory.config
+      UBOOT_MACHINE=am62px_evm_a53_defconfig am62x_a53_usbdfu.config am6x_a53_snagfactory.config
 
 .. ifconfig:: CONFIG_part_variant in ('AM62DX')
 
@@ -100,7 +100,13 @@ in :file:`Rules.make` file present in the top level of Linux SDK Installer.
 
       UBOOT_MACHINE_R5=am62dx_evm_r5_defconfig am62x_r5_usbdfu.config
 
-      BOOT_MACHINE_A53=am62dx_evm_a53_defconfig am62x_a53_usbdfu.config am6x_a53_snagfactory.config
+      UBOOT_MACHINE=am62dx_evm_a53_defconfig am62x_a53_usbdfu.config am6x_a53_snagfactory.config
+
+.. ifconfig:: CONFIG_part_variant in ('AM62LX')
+
+   .. code-block:: make
+
+      UBOOT_MACHINE=am62lx_evm_defconfig am62x_a53_usbdfu.config am6x_a53_snagfactory.config
 
 Generate the bootloader images using top-level makefile by running following
 commands on the terminal from the top-level of the Linux SDK installer.
@@ -130,10 +136,51 @@ Connections
 
 * Power off the EVM and set up the boot mode switches to boot from USB DFU.
 
-.. code-block:: text
+   .. ifconfig:: CONFIG_part_variant in ('AM62X')
 
-   SW2-11001100
-   SW3-00000000
+      AM62X (SK-AM62B-P1) - USB-DFU Boot
+
+      .. code-block:: text
+
+         SW2 - BOOTMODE[8:15]   = 00000000
+         SW1 - BOOTMODE[0:7]    = 11001010
+
+   .. ifconfig:: CONFIG_part_variant in ('AM62AX')
+
+      AM62A (SK-AM62A-LP) - USB-DFU Boot
+
+      .. code-block:: text
+
+         SW3 - BOOTMODE[8:15]   = 00000000
+         SW2 - BOOTMODE[0:7]    = 11001010
+
+   .. ifconfig:: CONFIG_part_variant in ('AM62PX')
+
+      AM62P (SK-AM62P-LP) - USB-DFU Boot
+
+      .. code-block:: text
+
+         SW5 - BOOTMODE[8:15]   = 00000000
+         SW4 - BOOTMODE[0:7]    = 11001010
+
+   .. ifconfig:: CONFIG_part_variant in ('AM62LX')
+
+      AM62L (TMDS62LEVM) - USB-DFU Boot
+
+      .. code-block:: text
+
+         SW2 - BOOTMODE[8:11]    = 0000
+         SW3 - BOOTMODE[12:15]   = 0000
+         SW4 - BOOTMODE[0:7]     = 11001010
+
+   .. ifconfig:: CONFIG_part_variant in ('AM64X')
+
+      AM64X (TMDS64EVM) - USB-DFU Boot
+
+      .. code-block:: text
+
+         SW2 - BOOTMODE[0:7] = 11001010
+         SW3 - BOOTMODE[8:15] = 00000000
 
 * Power on the board.
 * Optionally you can also connect host PC to board via UART to read the console logs.
@@ -184,6 +231,39 @@ the SnagFactory GUI tool.
 
 * Once you load the YAML configuration file, the SnagFactory GUI tool will flash the device with
   the specified configuration.
+
+The following table outline the board names for snagfactory yaml configuration.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Evaluation Board
+     - Family
+     - board
+   * - am62pxx-evm
+     - am6x
+     - am62p
+   * - am62xx-evm
+     - am6x
+     - am625
+   * - am62lxx-evm
+     - am62lx
+     - am62l3
+   * - am62xx-lp-evm
+     - am6x
+     - am625
+   * - am62sip-evm
+     - am6x
+     - am625
+   * - am62dxx-evm
+     - am6x
+     - am62d2
+   * - am62axx-evm
+     - am6x
+     - am62a7
+   * - am64xx-evm
+     - am6x
+     - am6442
 
 The example configuration files for **emmc** and **ospi-nand** and **ospi-nor** are as follows.
 
@@ -313,6 +393,50 @@ For reference, the  :file:`emmc.yaml` file for **am62p** platform can be as foll
              part: "hwpart 1"
            - image: "<path_to_flash_binaries>/rootfs.ext4"
              part: "rootfs"
+
+For reference, the  :file:`emmc.yaml` file for **am62l** platform can be as follows:
+
+.. code-block:: text
+
+   boards:
+     "0451:6165": "am62l3"
+
+   soc-models:
+     am62l3-firmware:
+         tiboot3:
+           path: "<path_to_boot_binaries>/tiboot3.bin"
+         tispl:
+           path: "<path_to_boot_binaries>/tispl.bin"
+         u-boot:
+           path: "<path_to_boot_binaries>/u-boot.img"
+
+     am62l3-tasks:
+       - target-device: mmc0
+         fb-buffer-addr: 0x82000000
+         fb-buffer-size: 0x7000000
+
+       - task: gpt
+         args:
+           - name: rootfs
+             size: 15G
+
+       - task: reset
+
+       - task: flash
+         args:
+           - image: "<path_to_flash_binaries>/tiboot3.bin"
+             image-offset: 0x0
+             part: "hwpart 1"
+           - image: "<path_to_flash_binaries>/tispl.bin"
+             image-offset: 0x80000
+             part: "hwpart 1"
+           - image: "<path_to_flash_binaries>/u-boot.img"
+             image-offset: 0x280000
+             part: "hwpart 1"
+           - image: "<path_to_flash_binaries>/rootfs.ext4"
+             part: "rootfs"
+
+For eMMC boot configuration, refer :ref:`emmc_boot_config`
 
 **Snagboot Command-line Configuration and Device Flashing Procedure**
 

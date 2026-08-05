@@ -1,15 +1,24 @@
 ---
+# yamllint disable rule:line-length
+
 name: "rstcheck"
 
-on:
+on:  # yamllint disable-line rule:truthy
   pull_request:
     branches: [master]
     paths:
       - 'source/**'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number }}
+  cancel-in-progress: true
+
 defaults:
   run:
     shell: bash
+
+permissions:
+  contents: read
 
 jobs:
   lint:
@@ -18,12 +27,12 @@ jobs:
     container:
       image: ghcr.io/texasinstruments/processor-sdk-doc:latest
       options: --entrypoint /bin/bash
-    permissions:
-      contents: read
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Update refs and settings
         run: |
@@ -33,6 +42,8 @@ jobs:
           git switch master
 
       - name: Run rstcheck
+        env:
+          EVENT_NUMBER: ${{ github.event.number }}
         run: |
           # Disable color output
           export NO_COLOR=true
@@ -53,7 +64,7 @@ jobs:
 
           # Prepare the artifacts
           mkdir -p ./results
-          echo "${{ github.event.number }}" > ./results/id
+          echo "$EVENT_NUMBER" > ./results/id
           cp "$GITHUB_STEP_SUMMARY" ./results/summary
           echo "$(wc -l < _new-warn.log)" > ./results/problem-count
 
@@ -61,8 +72,8 @@ jobs:
           [ "$WARNING_COUNT" -eq "0" ]
 
       - name: Save results
-        uses: actions/upload-artifact@v4
-        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        if: ${{ !cancelled() }}
         with:
           name: results
           path: results/

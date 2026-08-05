@@ -23,17 +23,15 @@ Foundational Components
    Foundational_Components_IPC_J722S
    Foundational_Components_IPC62x
    Foundational_Components_IPC62ax
+   Foundational_Components_IPC62dx
    Foundational_Components_IPC62px
    Foundational_Components_IPC64x
    Foundational_Components_IPCLLD
    Foundational_Components_CMEM
    Foundational_Components/Graphics/index
-   Foundational_Components_Multimedia_IVAHD
    Foundational_Components_Multimedia_D5520_VXE384
    Foundational_Components_Multimedia_wave5
-   Foundational_Components_OpenCL
    Foundational_Components_OpenCV
-   Foundational_Components_OpenVX
    Foundational_Components_Hypervisor
    Foundational_Components_Virtualization
    Foundational_Components_Machine_Learning

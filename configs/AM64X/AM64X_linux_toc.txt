@@ -48,6 +48,7 @@ linux/Foundational_Components_Kernel
 linux/Foundational_Components_Kernel_Drivers
 linux/Foundational_Components/Kernel/Kernel_Drivers/ADC
 linux/Foundational_Components/Kernel/Kernel_Drivers/Crypto/SA2UL_OMAP
+linux/Foundational_Components/Kernel/Kernel_Drivers/DDR
 linux/Foundational_Components/Kernel/Kernel_Drivers/DM-Timer
 linux/Foundational_Components/Kernel/Kernel_Drivers/EQEP
 linux/Foundational_Components/Kernel/Kernel_Drivers/GPIO
@@ -63,6 +64,7 @@ linux/Foundational_Components/Kernel/Kernel_Drivers/Network/CPSW-IET
 linux/Foundational_Components/Kernel/Kernel_Drivers/Network/CPSW-TSN-Tuning
 linux/Foundational_Components/Kernel/Kernel_Drivers/Network/NETCONF-YANG
 linux/Foundational_Components/Kernel/Kernel_Drivers/Network/HSR_PRP_Non_Offload
+linux/Foundational_Components/Kernel/Kernel_Drivers/Network/HSR_PRP_PTP
 linux/Foundational_Components/Kernel/Kernel_Drivers/Network/HSR_Offload
 linux/Foundational_Components/Kernel/Kernel_Drivers/Network/PRP_Offload
 linux/Foundational_Components/Kernel/Kernel_Drivers/SPI
@@ -83,6 +85,11 @@ linux/Foundational_Components_Kernel_LTP-DDT_Validation
 linux/Foundational_Components_Kernel_FAQs
 linux/Foundational_Components_Security
 linux/Foundational_Components/System_Security/Security_overview
+linux/Foundational_Components/System_Security/Memory_Firewalls
+linux/Foundational_Components/System_Security/Post_Quantum_Cryptography
+linux/Foundational_Components/System_Security/SELinux
+linux/Foundational_Components/System_Security/Auth_boot
+linux/Foundational_Components/System_Security/Filesystem_Encryption
 linux/Foundational_Components_Machine_Learning
 linux/Foundational_Components/Machine_Learning/arm_compute_library
 linux/Foundational_Components/Machine_Learning/armnn
@@ -105,6 +112,7 @@ linux/Foundational_Components/PRU-ICSS/Linux_Drivers/RemoteProc
 linux/Foundational_Components/PRU-ICSS/Linux_Drivers/PRU_ICSSG_Ethernet
 linux/Foundational_Components/PRU-ICSS/Linux_Drivers/PRU_ICSSG_Ethernet_Switch
 linux/Foundational_Components/PRU-ICSS/Linux_Drivers/RPMsg
+linux/Foundational_Components/PRU-ICSS/Linux_Drivers/pruss-uart
 linux/Foundational_Components/PRU-ICSS/Linux_Drivers/PRU_ICSSG_XDP
 linux/Foundational_Components/PRU-ICSS/RPMsg_Quick_Start_Guide
 linux/Foundational_Components/PRU-ICSS-Hardware
@@ -146,10 +154,11 @@ linux/How_to_Guides/Host/Program_MMC_boot_media
 linux/How_to_Guides/Target/How_to_emmc_boot
 linux/How_to_Guides/Target/How_to_mmcsd_boot_emmc_uda
 linux/How_to_Guides/Target/How_to_Tune_Real_Time_Linux
-linux/How_to_Guides/Hardware_Setup_with_CCS/AM64x_EVM_Hardware_Setup
+common/How_to_Guides/AM64x_EVM_Hardware_Setup
 linux/How_to_Guides/FAQ/How_to_Verify_Ipc_Linux_R5
 linux/How_to_Guides/FAQ/How_to_Check_Device_Tree_Info
 linux/How_to_Guides/FAQ/How_to_Integrate_Open_Source_Software
+linux/How_to_Guides/FAQ/How_to_work_with_SBOM
 linux/How_to_Guides/Target/Processor_SDK_Linux_File_System_Optimization_Customization
 
 devices/AM64X/index_RTOS

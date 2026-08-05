@@ -9,19 +9,19 @@ Overview
 
 The **Processor Software Development Kit (Processor SDK)** is a unified software platform for TI embedded processors
 providing easy setup and fast out-of-the-box access to benchmarks and demos.  All releases of Processor SDK are
-consistent across TI’s broad portfolio, allowing developers to seamlessly reuse and develop software across devices.
-Developing a scalable platform solutions has never been easier than with the Processor SDK and TI’s embedded processor
+consistent across TI's broad portfolio, allowing developers to seamlessly reuse and develop software across devices.
+Developing a scalable platform solutions has never been easier than with the Processor SDK and TI's embedded processor
 solutions.
 
 To simplify the end user experience, Processor SDK Linux AM62A installer provides everything needed as discussed below
-to create the embedded system from “scratch” :
+to create the embedded system from "scratch" :
 
 -  Platform/board-support software and configuration files for Linux
 -  U-Boot and Kernel sources and configuration files
 -  An ARM cross-compiling toolchain as well as other host binaries and components
 -  A Yocto/OE compliant filesystem and sources for example applications
 -  A variety of scripts and Makefiles to automate certain tasks
--  Other components needed to build an embedded system that don’t fit neatly into one of the above buckets
+-  Other components needed to build an embedded system that don't fit neatly into one of the above buckets
 -  Reference Examples, benchmarks
 
 
@@ -69,6 +69,7 @@ What's new
      - Multiple bug fixes w.r.t VPAC MSC and LDC subsystem
   - Important Bug Fixes on top of Processor SDK 10.01.00.05 Release
   - Review Issue Tracker Section for the new fixes - :ref:`Link to Issues Tracker <issue-tracker>`
+  - Negative edge panel support
 
 **Key Release References:**
 
@@ -86,6 +87,7 @@ What's new
   - TIFS Firmware / SYSFW `v11.01.05 <https://software-dl.ti.com/tisci/esd/11_01_05/release_notes/release_notes.html>`__ (Click on the link for more information)
   - DM Firmware `MSDK.11.01.00.16+ <https://github.com/TexasInstruments/mcupsdk-core-k3/tree/REL.MCUSDK.K3.11.01.00.16>`__ (Click on the link for more information)
   - Yocto scarthgap 5.0
+  - Security: Post Quantum Cryptography using Module Lattice (ML) Key Encapsulation Mechanism (KEM) or ML-KEM, ML Digital Signature Algorithm (DSA) or ML-DSA, and Stateless Hash-Based (SLH) DSA or SLH-DSA - :ref:`Post Quantum Cryptography <post_quantum_cryptography>`
 
 .. _release-specific-build-information:
 

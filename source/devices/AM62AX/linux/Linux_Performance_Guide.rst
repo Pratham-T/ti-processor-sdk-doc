@@ -306,7 +306,7 @@ MultiBench
 MultiBench™ is a suite of benchmarks that allows processor and system designers to
 analyze, test, and improve multicore processors. It uses three forms of concurrency:
 Data decomposition: multiple threads cooperating on achieving a unified goal and
-demonstrating a processor’s support for fine grain parallelism.
+demonstrating a processor's support for fine grain parallelism.
 Processing multiple data streams: uses common code running over multiple threads and
 demonstrating how well a processor scales over scalable data inputs.
 Multiple workload processing: shows the scalability of general-purpose processing,
@@ -831,27 +831,39 @@ Low Power Performance
 Power Performance
 ^^^^^^^^^^^^^^^^^
 
-.. csv-table:: Deep Sleep Power Performance
+.. csv-table:: I/O Only + DDR Power Performance
     :header: "Rail name","Rail voltage(V)","Power (mW)"
 
-    "vdd_core","0.85","18.73"
-    "vddr_core","0.85","2.28"
-    "soc_dvdd_3v3","3.30","5.04"
-    "soc_dvdd_1v8","1.80","2.17"
-    "vdda_1v8","1.80","10.99"
+    "vdd_core","0.85","0.00"
+    "vddr_core","0.85","0.00"
+    "soc_dvdd_3v3","3.30","3.31"
+    "soc_dvdd_1v8","1.80","1.89"
+    "vdda_1v8","1.80","0.02"
     "vdd_lpddr4","1.10","3.31"
-    "Total"," ","42.51"
+    "Total"," ","8.53"
+
+
+.. csv-table:: DeepSleep Power Performance
+    :header: "Rail name","Rail voltage(V)","Power (mW)"
+
+    "vdd_core","0.85","15.96"
+    "vddr_core","0.85","1.87"
+    "soc_dvdd_3v3","3.30","6.61"
+    "soc_dvdd_1v8","1.80","2.44"
+    "vdda_1v8","1.80","11.13"
+    "vdd_lpddr4","1.10","2.20"
+    "Total"," ","40.21"
 
 .. csv-table:: MCU Only Power Performance
     :header: "Rail name","Rail voltage(V)","Power (mW)"
 
-    "vdd_core","0.85","197.77"
-    "vddr_core","0.85","3.11"
-    "soc_dvdd_3v3","3.30","11.32"
-    "soc_dvdd_1v8","1.80","2.44"
+    "vdd_core","0.85","134.81"
+    "vddr_core","0.85","1.92"
+    "soc_dvdd_3v3","3.30","11.40"
+    "soc_dvdd_1v8","1.80","2.17"
     "vdda_1v8","1.80","19.55"
-    "vdd_lpddr4","1.10","3.86"
-    "Total"," ","238.06"
+    "vdd_lpddr4","1.10","2.76"
+    "Total"," ","172.60"
 
 Partial I/O Data
 - All voltage rails were measured to be near 0V
@@ -868,9 +880,9 @@ Resume Latency Performance
 .. csv-table:: LPM Resume Latency Performance
    :header: "Low Power Mode","Total Resume Latency (ms)"
 
-   "I/O Only + DDR", "682.23"
-   "Deep Sleep", "160.24"
-   "MCU Only", "95.30"
+   "I/O Only + DDR", "742"
+   "DeepSleep", "153"
+   "MCU Only", "115"
 
 The performance numbers are measured without the Linux printk logs. To remove the
 Linux printk logs, run the following commands in the terminal:
@@ -887,3 +899,5 @@ Linux printk logs, run the following commands in the terminal:
 .. note::
 
    The measurements shown are from using the default SDK with no extra optimizations.
+
+Further optimizations are possible for these low power modes. Please refer to the AM62x Power Consumption App Note (https://www.ti.com/lit/pdf/spradg1)

@@ -72,12 +72,20 @@ Armbian supports both an interactive UI and a noninteractive build process.
 .. note::
 
    This build guide has been tested on an x86 host machine running Ubuntu 22.04. The Armbian :file:`compile.sh` script
-   builds in an ARM64 docker container. Ensure the following packages are installed:
+   builds in an ARM64 docker container. Install the following packages and configure docker:
 
    .. code-block:: console
 
       sudo apt update
-      sudo apt install docker.io qemu qemu-user-static binfmt-support
+      sudo apt install docker.io qemu-user-static binfmt-support
+      sudo usermod -aG docker $USER
+      newgrp docker
+
+   If the host machine is behind a proxy, be sure to set **at minimum** the HTTP_PROXY environment variable before building:
+
+   .. code-block:: console
+
+      export HTTP_PROXY=http://<proxy_address>:<proxy_port>
 
 -  To build interactively:
 
@@ -119,8 +127,9 @@ For a list of boards and branches supported by each SoC, refer:
       AM62-LP,sk-am62-lp,``config/boards/sk-am62-lp.conf``,"vendor, vendor-rt, vendor-edge, edge"
       AM62SIP,sk-am62-sip,``config/boards/sk-am62-sip.conf``,"vendor, vendor-rt, vendor-edge, edge"
       AM62Lx,tmds62levm,``config/boards/tmds62levm.conf``,"vendor, vendor-rt, vendor-edge"
+      AM62Lx,beaglebadge,``config/boards/beaglebadge.conf``,"vendor, vendor-rt, vendor-edge"
       AM62Px,sk-am62p,``config/boards/sk-am62p.conf``,"vendor, vendor-rt, vendor-edge, edge"
       AM64x,sk-am64b,``config/boards/sk-am64b.conf``,"vendor, vendor-rt, vendor-edge, edge"
-
+      AM64x,tmds64evm,``config/boards/tmds64evm.conf``,"vendor, vendor-rt, vendor-edge, edge"
 
 ``output/images/`` stores the built images. These images have a ``.img`` extension.

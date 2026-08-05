@@ -31,6 +31,8 @@ User's Guide
    UG-AVS
    UG-Thermal
    UG-Splash-Screen
-   UG-Key-Writer-Lite
+   UG-Secure-Boot
+   UG-Keywriter-Lite
+   UG-Keywriter
    UG-Programming-OTPs
    UG-Falcon-Mode

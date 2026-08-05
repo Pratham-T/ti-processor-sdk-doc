@@ -1,3 +1,5 @@
+.. _dss7:
+
 DSS
 #################
 
@@ -377,6 +379,8 @@ Device Tree Node
 Documentation for tidss device tree node and its properties can be found in linux kernel device tree bindings in below directory
 ``Documentation/devicetree/bindings/display/ti/``. Seperate binding files are present for different version of the DSS controller.
 
+For information about configuring Spread Spectrum Clocking (SSC) for DSS, see :ref:`how-to-enable-ssc-for-dss`.
+
 
 Driver Usage
 ============
@@ -443,7 +447,7 @@ Another option is kms++, a C++11 library for kernel mode setting which includes 
 Testing tidss
 -------------
 
-kmsxxtest from kms++ is a good tool for testing tidss features. Note that any other applications using DRM (Weston, X) must be killed first. Another tool from kms++ is kmsprint, which can be used to print various bits of information about tidss.
+kmstest from kms++ is a good tool for testing tidss features. Note that any other applications using DRM (Weston, X) must be killed first. Another tool from kms++ is kmsprint, which can be used to print various bits of information about tidss.
 
 .. code-block:: console
 
@@ -458,7 +462,7 @@ kmsxxtest from kms++ is a good tool for testing tidss features. Note that any ot
 
 .. code-block:: console
 
-  $ kmsxxtest -c dp -r 640x480
+  $ kmstest -c dp -r 640x480
   Connector 0/@39: DP-1
     Crtc 0/@37: 640x480 25.175 640/16/96/48/- 480/10/2/33/- 60 (59.94) 0xa 0x40
     Plane 0/@31: 0,0-640x480
@@ -477,7 +481,7 @@ kmsxxtest from kms++ is a good tool for testing tidss features. Note that any ot
         Crtc 0 (38) 800x480 28.569 800/48/32/80 480/3/7/6 60 (60.00)
           Plane 0 (31) fb-id: 48 (crtcs: 0) 0,0 800x480 -> 0,0 800x480 (AR12 AB12 RA12 RG16 BG16 AR15 AB15 AR24 AB24 RA24 BA24 RG24 BG24 AR30 AB30 XR12 XB12 RX12 XR15 XB15 XR24 XB24 RX24 BX24 XR30 XB30 YUYV UYVY NV12)
             FB 48 800x480
-    $ kmsxxtest --device=/dev/dri/card2
+    $ kmstest --device=/dev/dri/card2
     Connector 0/@40: DSI-1
       Crtc 0/@38: 800x480 28.569 800/48/32/80/- 480/3/7/6/- 60 (60.00) 0xa 0x48
       Plane 0/@31: 0,0-800x480
@@ -509,8 +513,8 @@ tidss supports configuration via DRM properties. These are standard DRM properti
 
 .. _testing_tidss_properties:
 
-Testing tidss properties with modetest and kmsxxtest
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Testing tidss properties with modetest and kmstest
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 As the name suggests, ``modetest`` is DRM based mode setting test program available along with libdrm.
 It is an easy-to-use tool to test different features provided by display HWs. The DRM driver for,
@@ -685,12 +689,12 @@ hence plane 41 remains unused.
 
 - **Cropping**
 
-``kmsxxtest`` utility can be used to demonstrate cropping in a video frame using a test pattern.
+``kmstest`` utility can be used to demonstrate cropping in a video frame using a test pattern.
 The user can specify the main video frame size and an input color format using the ``-f`` argument. Then the source region, also known as a view region, can be specified using the ``-v`` argument. This takes a secondary width and height to create a rectangle starting at a given coordinate. The destination region, or plane region, for the view can be specified using ``-p`` argument. This takes a third width, height and coordinate position to place an overlay with the associated view region's content.
 
 .. code-block:: console
 
-   $ kmsxxtest -c hdmi -p 0:0,0-1000x1000 -f 1000x1000-XR24 -v 0,0-1000x1000
+   $ kmstest -c hdmi -p 0:0,0-1000x1000 -f 1000x1000-XR24 -v 0,0-1000x1000
    Connector 1/@50: HDMI-A-1
    Crtc 1/@48: 1920x1080@59.93 138.500 1920/48/32/80/+ 1080/3/5/23/- 60 (59.93) 0x9 0x48
    Plane 0/@31: 0,0-1000x1000
@@ -704,7 +708,7 @@ The above example displays a ``1000x1000`` video frame on the screen at coordina
 
 .. code-block:: console
 
-   $ kmsxxtest -c hdmi -p 0:0,0-800x800 -f 1000x1000 -v 0,0-800x800
+   $ kmstest -c hdmi -p 0:0,0-800x800 -f 1000x1000 -v 0,0-800x800
    Connector 1/@50: HDMI-A-1
    Crtc 1/@48: 1920x1080@59.93 138.500 1920/48/32/80/+ 1080/3/5/23/- 60 (59.93) 0x9 0x48
    Plane 0/@31: 0,0-800x800
@@ -718,7 +722,7 @@ Taking as an input a video frame of dimensions ``1000x1000``,the example creates
 
 .. code-block:: console
 
-   $ kmsxxtest -c hdmi -p 0:500,200-800x800 -f 1000x1000 -v 200,100-800x800
+   $ kmstest -c hdmi -p 0:500,200-800x800 -f 1000x1000 -v 200,100-800x800
    Connector 1/@50: HDMI-A-1
    Crtc 1/@48: 1920x1080@59.93 138.500 1920/48/32/80/+ 1080/3/5/23/- 60 (59.93) 0x9 0x48
    Plane 0/@31: 500,200-800x800
@@ -732,7 +736,7 @@ Taking as an input a video frame of dimensions ``1000x1000``, this example creat
 
 - **Gamma Correction**
 
-Gamma correction or gamma is used to adjust the brightness and color of images on a display. It is applied to ensure that the image appears as intended, with accurate brightness and color representation. Displays, such as LCDs and OLEDs, do not respond linearly to input signals. This means that the display's brightness does not increase linearly with the input voltage. Gamma correction compensates for this non-linear response by applying a non-linear transformation to the input signal. Gamma correction is typically applied using a look-up table (LUT) or a mathematical formula. The LUT or formula maps the input pixel values to output values that have been adjusted to compensate for the display’s non-linear response. DSS7 uses a look-up table for gamma correction. The gamma correction curve is usually represented by a power-law function, where the output value is proportional to the input value raised to a power.
+Gamma correction or gamma is used to adjust the brightness and color of images on a display. It is applied to ensure that the image appears as intended, with accurate brightness and color representation. Displays, such as LCDs and OLEDs, do not respond linearly to input signals. This means that the display's brightness does not increase linearly with the input voltage. Gamma correction compensates for this non-linear response by applying a non-linear transformation to the input signal. Gamma correction is typically applied using a look-up table (LUT) or a mathematical formula. The LUT or formula maps the input pixel values to output values that have been adjusted to compensate for the display's non-linear response. DSS7 uses a look-up table for gamma correction. The gamma correction curve is usually represented by a power-law function, where the output value is proportional to the input value raised to a power.
 
 .. math::
 
